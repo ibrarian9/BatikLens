@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BatikLens</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kenali_motif_batik_indonesia">Kenali Motif Batik Indonesia</string>
+    <string name="identifikasi_motif_batik_dengan_ai_kamera">Identifikasi motif batik dengan Ai Kamera</string>
+    <string name="lanjutkan">Lanjutkan</string>
+    <string name="lewati">Lewati</string>
+    <string name="pelajari_sejarah_batik">Pelajari Sejarah Batik</string>
+    <string name="lestarikan_budaya_indonesia_dengan_mempelajari_sejarahnya">Lestarikan budaya indonesia dengan mempelajari sejarahnya</string>
+    <string name="update_info_seputar_batik">Update Info Seputar Batik</string>
+    <string name="dapatkan_informasi_terbaru_tentang_batik_melalui_berita_terupdate">Dapatkan informasi terbaru tentang batik melalui berita terupdate!</string>
 </resources>
