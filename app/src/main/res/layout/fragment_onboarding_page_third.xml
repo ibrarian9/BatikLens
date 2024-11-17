@@ -77,6 +77,7 @@
                 android:backgroundTint="@color/white"
                 app:strokeColor="@color/mainColor"
                 app:strokeWidth="2dp"
+                app:rippleColor="@color/mainColor"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large">
 
                 <Button
@@ -87,6 +88,7 @@
                     android:includeFontPadding="false"
                     android:backgroundTint="@color/white"
                     android:drawableTint="@color/white"
+                    app:rippleColor="@color/mainColor"
                     android:text="@string/lanjutkan"
                     android:textColor="@color/mainColor"
                     android:contentDescription="@string/lanjutkan" />

@@ -1,5 +1,6 @@
 package com.app.batiklens.ui.onboarding
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.batiklens.R
 import com.app.batiklens.databinding.OnboardingPageBinding
+import com.app.batiklens.ui.login.LoginActivity
 
 class OnboardingPageFragment : Fragment() {
 
@@ -26,6 +28,9 @@ class OnboardingPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
+            lewati.setOnClickListener {
+                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+            }
             next.setOnClickListener {
                 val secondFragment = OnboardingPageSecondFragment()
                 parentFragmentManager.beginTransaction().apply {

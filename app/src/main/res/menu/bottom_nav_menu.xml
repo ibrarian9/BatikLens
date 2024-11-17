@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home_coklat"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_motif"
+        android:icon="@drawable/motif_coklat"
+        android:title="Motif" />
+    <item
+        android:id="@+id/nav_scanner"
+        android:title=""
+        android:enabled="false"/>
+    <item
+        android:id="@+id/nav_history"
+        android:icon="@drawable/clock_coklat"
+        android:title="History" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/user_coklat"
+        android:title="Profile" />
+</menu>

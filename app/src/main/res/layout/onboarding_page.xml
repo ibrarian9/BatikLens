@@ -76,6 +76,8 @@
                 android:backgroundTint="@color/white"
                 app:strokeColor="@color/mainColor"
                 app:strokeWidth="2dp"
+                android:clickable="true"
+                android:focusable="true"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large">
 
                 <Button
@@ -85,6 +87,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:includeFontPadding="false"
+                    android:background="@null"
+                    app:rippleColor="@color/mainColor"
                     android:backgroundTint="@color/white"
                     android:drawableTint="@color/white"
                     android:text="@string/lanjutkan"
@@ -101,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
+                app:rippleColor="@color/white"
                 android:backgroundTint="@color/white"
                 android:drawableTint="@color/white"
                 android:text="@string/lewati"
