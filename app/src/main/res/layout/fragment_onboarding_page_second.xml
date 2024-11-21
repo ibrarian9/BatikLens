@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.onboarding.OnboardingPageSecondFragment">
+    tools:context=".ui.nonUser.onboarding.OnboardingPageSecondFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

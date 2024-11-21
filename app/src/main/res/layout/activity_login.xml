@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.nonUser.login.LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -133,7 +133,7 @@
 
                 <Button
                     android:id="@+id/masuk"
-                    style="?android:attr/buttonBarButtonStyle"
+                    style="@style/ShapeAppearance.Material3.Corner.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "516544967646",
+    "project_id": "newsapi-442013",
+    "storage_bucket": "newsapi-442013.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516544967646:android:0698cda5e08baf0bb2234f",
+        "android_client_info": {
+          "package_name": "com.app.batiklens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGNeRz7PZPawsQSXjAAF0B2oKzkc4QSEE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
