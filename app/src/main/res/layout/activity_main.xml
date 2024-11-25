@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,64 +7,54 @@
     android:layout_height="match_parent"
     tools:context=".ui.user.MainActivity">
 
+    <!-- Main Content Frame -->
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="-30dp"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+    <!-- Bottom App Bar -->
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomNavigationAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_gravity="bottom"
+        android:fitsSystemWindows="true"
+        app:backgroundTint="@color/secondColor"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="30dp">
 
-        <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomNavigationAppBar"
+        <!-- Bottom Navigation View -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/botNavbar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="32dp"
-            android:gravity="bottom"
-            app:backgroundTint="@color/secondColor"
-            app:fabCradleMargin="10dp"
-            app:fabCradleRoundedCornerRadius="30dp">
+            android:layout_height="match_parent"
+            app:elevation="0dp"
+            android:elevation="0dp"
+            android:layout_marginEnd="20dp"
+            app:itemHorizontalTranslationEnabled="false"
+            android:background="@android:color/transparent"
+            app:itemIconTint="@color/selection_navigator"
+            app:itemTextColor="@color/selection_navigator"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu" />
 
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/botNavbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:background="@android:color/transparent"
-                android:elevation="0dp"
-                app:elevation="0dp"
-                app:itemRippleColor="@color/secondColor"
-                app:itemIconTint="@color/selection_navigator"
-                app:itemTextColor="@color/selection_navigator"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/bottom_nav_menu" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-        </com.google.android.material.bottomappbar.BottomAppBar>
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:contentDescription="TODO"
+        android:scaleType="center"
+        app:fabSize="normal"
+        app:maxImageSize="60dp"
+        android:src="@drawable/scanner"
+        app:tint="@null"
+        app:backgroundTint="@color/white"
+        app:layout_anchor="@id/bottomNavigationAppBar" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:contentDescription="TODO"
-            android:scaleType="center"
-            app:fabSize="normal"
-            app:maxImageSize="60dp"
-            android:src="@drawable/scanner"
-            app:tint="@null"
-            app:backgroundTint="@color/white"
-            app:layout_anchor="@id/bottomNavigationAppBar" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

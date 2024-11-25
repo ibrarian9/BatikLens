@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="275dp"
         android:contentDescription="TODO"
+        android:scaleType="centerCrop"
         android:src="@drawable/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,6 +39,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tvJudul"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Batik Sekar Jagad"
@@ -49,6 +51,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvArtikel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:justificationMode="inter_word"
@@ -85,9 +88,10 @@
                     android:layout_marginTop="20dp" />
 
                 <TextView
+                    android:id="@+id/judulSejarahBatik"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sejarah Batik"
+                    android:text="@string/sejarah_batik"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="40dp"
                     android:textSize="25sp"

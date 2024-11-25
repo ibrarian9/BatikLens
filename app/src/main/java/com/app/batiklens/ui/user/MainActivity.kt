@@ -12,8 +12,8 @@ import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityMainBinding
 import com.app.batiklens.ui.user.history.HistoryFragment
 import com.app.batiklens.ui.user.home.HomeFragment
-import com.app.batiklens.ui.user.motif.MotifFragment
 import com.app.batiklens.ui.user.profil.ProfileFragment
+import com.app.batiklens.ui.user.provinsi.MotifFragment
 import com.app.batiklens.ui.user.scanBatik.ScannerActivity
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +27,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(bind.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            insets
+        }
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.bottomNavigationAppBar)) { _, insets ->
             insets
         }
 

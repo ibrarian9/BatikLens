@@ -6,16 +6,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.batiklens.databinding.FragmentBeritaBinding
+import com.bumptech.glide.Glide
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BeritaFragment : Fragment() {
 
     private var _binding: FragmentBeritaBinding? = null
     private val bind get() = _binding!!
+    private val beritaViewModel: BeritaViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
+            val id = arguments?.getInt(DETAIL_ID, 0)
 
+            id?.let {
+                beritaViewModel.berita(it)
+            }
+
+            beritaViewModel.beritaData.observe(viewLifecycleOwner) { data ->
+                data?.let {
+                    Glide.with(requireActivity()).load(it.foto).into(ivPoto)
+                    tvJudul.text = it.judul
+                    tvNama.text = it.author
+                    tvTanggal.text = it.tanggal
+                    tvArtikel.text = it.deskripsi
+                }
+            }
         }
     }
 
@@ -31,6 +48,10 @@ class BeritaFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val DETAIL_ID = "id"
     }
 
 }

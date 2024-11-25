@@ -26,6 +26,11 @@ class HomeFragment : Fragment() {
             listMotif.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
             listMotif.adapter = motifAdapter
 
+            homeViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+                loading.visibility = if (isLoading) View.VISIBLE else View.GONE
+                loading2.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+
             homeViewModel.semuaMotif.observe(viewLifecycleOwner){ listMotif ->
                 listMotif?.let {
                     motifAdapter.submitList(it)

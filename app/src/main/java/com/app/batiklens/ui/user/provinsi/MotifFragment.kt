@@ -1,4 +1,4 @@
-package com.app.batiklens.ui.user.motif
+package com.app.batiklens.ui.user.provinsi
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -8,52 +8,31 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.batiklens.adapters.ListMotifAdapter
-import com.app.batiklens.databinding.FragmentMotifListBinding
-import com.bumptech.glide.Glide
+import com.app.batiklens.adapters.ProvinsiAdapter
+import com.app.batiklens.databinding.FragmentMotifBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+class MotifFragment : Fragment() {
 
-class MotifListFragment : Fragment() {
-
-    private lateinit var listMotifAdapter: ListMotifAdapter
-    private var _binding: FragmentMotifListBinding? = null
+    private val adapterProvinsi = ProvinsiAdapter()
+    private var _binding: FragmentMotifBinding? = null
     private val bind get() = _binding!!
-    private val motifListViewModel: MotifListViewModel by viewModel()
+    private val motifViewModel: MotifViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
-            val id = arguments?.getInt(DETAIL_ID, 0)
+            listMotif.layoutManager = GridLayoutManager(requireActivity(), 2)
+            listMotif.addItemDecoration(SpaceItemDecoration(10))
+            listMotif.adapter = adapterProvinsi
 
-            id?.let {
-                motifListViewModel.listMotif(it)
-                listMotifAdapter = ListMotifAdapter(id)
-            }
-
-            rv.layoutManager = GridLayoutManager(requireActivity(), 2)
-            rv.addItemDecoration(SpaceItemDecoration(10))
-            rv.adapter = listMotifAdapter
-
-            motifListViewModel.image.observe(viewLifecycleOwner) { image ->
-                image?.let {
-                    Glide.with(requireActivity()).load(it).into(bigPict)
-                }
-            }
-
-            motifListViewModel.provinsi.observe(viewLifecycleOwner) { provinsi ->
-                provinsi?.let {
-                    textView2.text = provinsi
-                }
-            }
-
-            motifListViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            motifViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
                 loading.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
 
-            motifListViewModel.listMotif.observe(viewLifecycleOwner) { data ->
+            motifViewModel.semuaProvinsi.observe(viewLifecycleOwner) { data ->
                 data?.let {
-                    listMotifAdapter.submitList(it)
+                    adapterProvinsi.submitList(it)
                 }
             }
         }
@@ -82,7 +61,7 @@ class MotifListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentMotifListBinding.inflate(inflater, container, false)
+        _binding = FragmentMotifBinding.inflate(inflater, container, false)
         return bind.root
     }
 
@@ -90,9 +69,4 @@ class MotifListFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-    companion object {
-        const val DETAIL_ID = "id"
-    }
-
 }

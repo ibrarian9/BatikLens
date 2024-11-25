@@ -8,8 +8,9 @@ import com.app.batiklens.ui.user.detailMotif.DetailViewModel
 import com.app.batiklens.ui.user.editProfile.EditProfileViewModel
 import com.app.batiklens.ui.user.history.HistoryViewModel
 import com.app.batiklens.ui.user.home.HomeViewModel
-import com.app.batiklens.ui.user.motif.MotifViewModel
+import com.app.batiklens.ui.user.motif.MotifListViewModel
 import com.app.batiklens.ui.user.profil.ProfileViewModel
+import com.app.batiklens.ui.user.provinsi.MotifViewModel
 import com.app.batiklens.ui.user.scanBatik.ScannerViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -60,4 +61,5 @@ val appModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { ScannerViewModel(get()) }
     viewModel { EditProfileViewModel(get()) }
+    viewModel { MotifListViewModel(get()) }
 }

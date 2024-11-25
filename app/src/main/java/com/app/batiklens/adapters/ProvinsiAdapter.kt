@@ -8,18 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.batiklens.R
-import com.app.batiklens.databinding.ArtikelListViewBinding
-import com.app.batiklens.di.models.ArtikelModelItem
-import com.app.batiklens.ui.user.berita.BeritaFragment
+import com.app.batiklens.databinding.MotifDaerahViewBinding
+import com.app.batiklens.di.models.ProvinsiMotifModelItem
+import com.app.batiklens.ui.user.motif.MotifListFragment
 import com.bumptech.glide.Glide
 
-class ArtikelAdapter: ListAdapter<ArtikelModelItem, ArtikelAdapter.ViewHolder>(DIFF_CALLBACK) {
+class ProvinsiAdapter: ListAdapter<ProvinsiMotifModelItem, ProvinsiAdapter.ViewHolder>(DIFF_CALLBACK) {
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-        return ViewHolder(ArtikelListViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(MotifDaerahViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -27,20 +24,19 @@ class ArtikelAdapter: ListAdapter<ArtikelModelItem, ArtikelAdapter.ViewHolder>(D
     }
 
     class ViewHolder(
-        private val bind: ArtikelListViewBinding
+        private val bind: MotifDaerahViewBinding
     ): RecyclerView.ViewHolder(bind.root) {
-        fun binding(item: ArtikelModelItem) {
+        fun binding(item: ProvinsiMotifModelItem) {
             bind.apply {
                 val context = itemView.context
 
-                Glide.with(context).load(item.foto).into(fotoArtikel)
-                tvJudul.text = item.judul
-                tvArtikel.text = item.deskripsi
+                Glide.with(context).load(item.foto).into(image)
+                tvNama.text = item.provinsi
 
                 itemView.setOnClickListener {
-                    val fragment = BeritaFragment().apply {
+                    val fragment = MotifListFragment().apply {
                         arguments = Bundle().apply {
-                            putInt(BeritaFragment.DETAIL_ID, item.id)
+                            putInt(MotifListFragment.DETAIL_ID, item.id)
                         }
                     }
 
@@ -54,17 +50,17 @@ class ArtikelAdapter: ListAdapter<ArtikelModelItem, ArtikelAdapter.ViewHolder>(D
     }
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ArtikelModelItem>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ProvinsiMotifModelItem>() {
             override fun areItemsTheSame(
-                oldItem: ArtikelModelItem,
-                newItem: ArtikelModelItem
+                oldItem: ProvinsiMotifModelItem,
+                newItem: ProvinsiMotifModelItem
             ): Boolean {
                 return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
-                oldItem: ArtikelModelItem,
-                newItem: ArtikelModelItem
+                oldItem: ProvinsiMotifModelItem,
+                newItem: ProvinsiMotifModelItem
             ): Boolean {
                 return oldItem == newItem
             }
@@ -73,3 +69,5 @@ class ArtikelAdapter: ListAdapter<ArtikelModelItem, ArtikelAdapter.ViewHolder>(D
     }
 
 }
+
+

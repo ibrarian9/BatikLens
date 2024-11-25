@@ -120,31 +120,17 @@
                 android:text="Lupa Password?"
                 android:textColor="@color/mainColor" />
 
-            <com.google.android.material.card.MaterialCardView
+
+            <Button
+                android:id="@+id/masuk"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="15dp"
-                android:backgroundTint="@color/mainColor"
-                app:cardElevation="4dp"
-                app:rippleColor="@color/mainColor"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-                app:strokeColor="@color/mainColor"
-                app:strokeWidth="2dp">
-
-                <Button
-                    android:id="@+id/masuk"
-                    style="@style/ShapeAppearance.Material3.Corner.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:backgroundTint="@color/mainColor"
-                    android:drawableTint="@color/white"
-                    android:includeFontPadding="false"
-                    android:text="Masuk"
-                    android:textColor="@color/white" />
-
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_maincolor"
+                android:drawableTint="@color/white"
+                android:includeFontPadding="false"
+                android:text="Masuk"
+                android:textColor="@color/white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
