@@ -5,18 +5,28 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityRegisterBinding
+import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
+import com.app.batiklens.di.models.RegisterDTO
 import com.app.batiklens.ui.nonUser.login.LoginActivity
+import com.bumptech.glide.Glide
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.io.File
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var bind: ActivityRegisterBinding
+    private var file: File? = null
     private val registerViewModel: RegisterViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,13 +41,17 @@ class RegisterActivity : AppCompatActivity() {
         }
         bind.apply {
 
+            ivPoto.setOnClickListener {
+                resultLauncherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            }
+
             registerViewModel.registerResult.observe(this@RegisterActivity) { result ->
                 result.onSuccess {
                     val i = Intent(this@RegisterActivity, LoginActivity::class.java)
                     i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(i)
                 }.onFailure {
-                    messageToast(this@RegisterActivity, it.message.toString())
+                    messageToast(this@RegisterActivity, it.message ?: "Register Error")
                 }
             }
 
@@ -59,11 +73,16 @@ class RegisterActivity : AppCompatActivity() {
 
             masuk.setOnClickListener {
 
+                val dataName = namaLengkap.text.toString().trim()
                 val dataEmail = email.text.toString().trim()
                 val dataPassword = password.text.toString().trim()
                 val dataConfirmPass = konfirmasiPassword.text.toString().trim()
 
                 when {
+                    dataName.isEmpty() -> {
+                        checkData("Nama Wajib diisi")
+                        return@setOnClickListener
+                    }
                     dataEmail.isEmpty() -> {
                         checkData("Email Wajib diisi")
                         return@setOnClickListener
@@ -76,8 +95,23 @@ class RegisterActivity : AppCompatActivity() {
                         checkData("Confirm Password Wajib diisi")
                         return@setOnClickListener
                     }
+                    file == null -> {
+                        checkData("Foto Profil Wajib Diisi")
+                        return@setOnClickListener
+                    }
                     else -> {
-                        registerViewModel.register(dataEmail, dataPassword)
+                        val registerData = RegisterDTO(
+                            name = dataName,
+                            email = dataEmail,
+                            password = dataPassword,
+                            confirmPassword = dataConfirmPass
+                        )
+                        file?.let {
+                            val photo = it.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                            val imageMultipart: MultipartBody.Part =
+                                MultipartBody.Part.createFormData("profileImage", it.name, photo)
+                            registerViewModel.register(registerDTO = registerData, image = imageMultipart )
+                        }
                     }
                 }
             }
@@ -92,6 +126,18 @@ class RegisterActivity : AppCompatActivity() {
             bind.passLayout.error = "Passwords do not match"
         } else {
             bind.passLayout.error = null
+        }
+    }
+
+    private val resultLauncherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let {
+            Glide.with(this@RegisterActivity).load(it).fitCenter().into(bind.ivPoto)
+            file = getPath(this@RegisterActivity, it)?.let { it1 -> File(it1) }
+            if (file == null) {
+                messageToast(context = this@RegisterActivity, message = "Failed to get the image file.")
+            }
         }
     }
 

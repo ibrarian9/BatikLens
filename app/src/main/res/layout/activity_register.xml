@@ -34,6 +34,7 @@
             android:textSize="20sp" />
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivPoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
@@ -172,31 +173,17 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.card.MaterialCardView
+        <Button
+            android:id="@+id/register"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="30dp"
-            android:backgroundTint="@color/mainColor"
-            app:cardElevation="4dp"
-            app:rippleColor="@color/mainColor"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-            app:strokeColor="@color/mainColor"
-            app:strokeWidth="2dp">
-
-            <Button
-                android:id="@+id/masuk"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="5dp"
-                android:backgroundTint="@color/mainColor"
-                android:drawableTint="@color/white"
-                android:includeFontPadding="false"
-                android:text="Masuk"
-                android:textColor="@color/white" />
-
-        </com.google.android.material.card.MaterialCardView>
+            android:background="@drawable/button_maincolor"
+            android:drawableTint="@color/white"
+            android:includeFontPadding="false"
+            android:text="Register"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

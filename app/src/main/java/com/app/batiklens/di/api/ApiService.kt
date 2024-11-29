@@ -5,11 +5,25 @@ import com.app.batiklens.di.models.DetailProvinsi
 import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
+import com.app.batiklens.di.models.ResponseMessage
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
+import retrofit2.http.PartMap
 import retrofit2.http.Path
 
 interface ApiService {
+
+    @Multipart
+    @POST("/register")
+    suspend fun register(
+        @PartMap registerDTO: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part profileImage: MultipartBody.Part
+    ): Response<ResponseMessage>
 
     @GET("/news")
     suspend fun semuaArtikel(): Response<List<ArtikelModelItem>>

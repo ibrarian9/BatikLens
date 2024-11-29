@@ -23,7 +23,7 @@ class MotifFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
             listMotif.layoutManager = GridLayoutManager(requireActivity(), 2)
-            listMotif.addItemDecoration(SpaceItemDecoration(10))
+            listMotif.addItemDecoration(SpaceItemDecoration(20, 30))
             listMotif.adapter = adapterProvinsi
 
             motifViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
@@ -38,7 +38,7 @@ class MotifFragment : Fragment() {
         }
     }
 
-    class SpaceItemDecoration(private val space: Int) : RecyclerView.ItemDecoration() {
+    class SpaceItemDecoration(private val space: Int, private val spaceHorizontal: Int) : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect,
             view: View,
@@ -49,8 +49,8 @@ class MotifFragment : Fragment() {
             val spanCount = (parent.layoutManager as? GridLayoutManager)?.spanCount ?: 1
 
             // Apply spacing logic for GridLayoutManager
-            outRect.left = space / 2
-            outRect.right = space / 2
+            outRect.left = spaceHorizontal / 2
+            outRect.right = spaceHorizontal / 2
             outRect.top = if (position < spanCount) space else space / 2
             outRect.bottom = space / 2
         }

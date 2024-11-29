@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/button_maincolor"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:layout_margin="20dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posisikan batik dalam frame"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:drawablePadding="20sp"
+        app:drawableStartCompat="@drawable/motif_putih" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pastikan gambar tidak blur"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:textSize="18sp"
+        android:layout_marginVertical="10dp"
+        android:drawablePadding="20sp"
+        app:drawableStartCompat="@drawable/motif_putih" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pindai hanya satu jenis batik"
+        android:textColor="@color/white"
+        android:gravity="center_vertical"
+        android:drawablePadding="20sp"
+        android:textSize="18sp"
+        app:drawableStartCompat="@drawable/motif_putih" />
+
+    <Button
+        android:id="@+id/masuk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20sp"
+        android:background="@drawable/button_second_color"
+        android:drawableTint="@color/white"
+        android:includeFontPadding="false"
+        android:text="Masuk"
+        android:textColor="@color/white" />
+
+</LinearLayout>

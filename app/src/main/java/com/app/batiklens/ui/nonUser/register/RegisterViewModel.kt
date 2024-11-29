@@ -5,17 +5,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.batiklens.di.MainRepository
-import com.google.firebase.auth.FirebaseUser
+import com.app.batiklens.di.models.RegisterDTO
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class RegisterViewModel(private val repo: MainRepository): ViewModel() {
 
-    private val _registerResult = MutableLiveData<Result<FirebaseUser?>>()
-    val registerResult: LiveData<Result<FirebaseUser?>> = _registerResult
+    private val _registerResult = MutableLiveData<Result<String>>()
+    val registerResult: LiveData<Result<String>> = _registerResult
 
-    fun register(email: String, password: String){
+    fun register(registerDTO: RegisterDTO, image: MultipartBody.Part){
         viewModelScope.launch {
-            val result = repo.register(email = email, password = password)
+            val result = repo.postRegister(registerDTO = registerDTO, image = image)
             _registerResult.value = result
         }
     }

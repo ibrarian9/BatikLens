@@ -7,12 +7,16 @@ import com.app.batiklens.di.models.ArtikelModelItem
 import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
+import com.app.batiklens.di.models.RegisterDTO
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class MainRepository(
     private val apiService: ApiService
@@ -49,12 +53,29 @@ class MainRepository(
         }
     }
 
-    suspend fun register(email: String, password: String): Result<FirebaseUser?> {
+    suspend fun postRegister(
+        registerDTO: RegisterDTO,
+        image: MultipartBody.Part
+    ): Result<String> {
+        _loading.value = true
         return try {
-            firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            Result.success(firebaseAuth.currentUser)
+            val registerMap = mapOf(
+                "email" to registerDTO.email.toRequestBody("text/plain".toMediaTypeOrNull()),
+                "name" to registerDTO.name.toRequestBody("text/plain".toMediaTypeOrNull()),
+                "password" to registerDTO.password.toRequestBody("text/plain".toMediaTypeOrNull()),
+                "confirmPassword" to registerDTO.confirmPassword.toRequestBody("text/plain".toMediaTypeOrNull()),
+            )
+
+            val res = apiService.register(registerDTO = registerMap, profileImage = image)
+            if (res.isSuccessful){
+                Result.success(res.body()?.message ?: "Upload is Successfully")
+            } else {
+                Result.failure(Exception("Upload Error"))
+            }
         } catch (e: Exception) {
             Result.failure(e)
+        } finally {
+            _loading.value = false
         }
     }
 
