@@ -38,4 +38,11 @@ class HomeViewModel(private val repo: MainRepository): ViewModel() {
             _semuaMotif.value = res
         }
     }
+
+    fun semuaArtikel(search: String) {
+        viewModelScope.launch {
+            val res = repo.searchArtikel(search)
+            _semuaBerita.value = res
+        }
+    }
 }

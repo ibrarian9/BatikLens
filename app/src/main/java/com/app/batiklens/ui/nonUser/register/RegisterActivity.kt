@@ -47,8 +47,9 @@ class RegisterActivity : AppCompatActivity() {
 
             registerViewModel.registerResult.observe(this@RegisterActivity) { result ->
                 result.onSuccess {
-                    val i = Intent(this@RegisterActivity, LoginActivity::class.java)
-                    i.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    val i = Intent(this@RegisterActivity, LoginActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
                     startActivity(i)
                 }.onFailure {
                     messageToast(this@RegisterActivity, it.message ?: "Register Error")
@@ -71,7 +72,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             })
 
-            masuk.setOnClickListener {
+            register.setOnClickListener {
 
                 val dataName = namaLengkap.text.toString().trim()
                 val dataEmail = email.text.toString().trim()

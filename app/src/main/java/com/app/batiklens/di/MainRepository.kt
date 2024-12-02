@@ -8,6 +8,7 @@ import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
 import com.app.batiklens.di.models.RegisterDTO
+import com.app.batiklens.di.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -41,6 +42,24 @@ class MainRepository(
             Firebase.auth.signOut()
         } catch (e: Exception){
             _error.value = e.message.toString()
+        }
+    }
+
+    suspend fun getDetailProfil(id: String): UserModel? {
+        _loading.value = true
+        return try {
+            val res = apiService.getDetailProfile(id = id)
+            if (res.isSuccessful){
+                res.body()
+            } else {
+                _error.value = "Data tidak Ada"
+                null
+            }
+        } catch (e: Exception){
+            _error.value = e.message.toString()
+            null
+        } finally {
+            _loading.value = false
         }
     }
 
@@ -188,6 +207,25 @@ class MainRepository(
                emptyList()
             }
         } catch (e: Exception){
+            _error.value = e.toString()
+            emptyList()
+        } finally {
+            _loading.value = false
+        }
+    }
+
+    suspend fun searchArtikel(search: String): List<ArtikelModelItem> {
+        _loading.value = true
+        return try {
+            delay(timeLoading)
+            val res = apiService.searchArtikel(search)
+            if (res.isSuccessful){
+                res.body() ?: emptyList()
+            } else {
+                _error.value = "Error : ${res.code()} - ${res.message()}"
+                emptyList()
+            }
+        } catch (e: Exception) {
             _error.value = e.toString()
             emptyList()
         } finally {

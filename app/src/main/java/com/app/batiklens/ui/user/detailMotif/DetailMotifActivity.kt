@@ -2,6 +2,7 @@ package com.app.batiklens.ui.user.detailMotif
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -38,17 +39,23 @@ class DetailMotifActivity : AppCompatActivity() {
                detailViewModel.detailMotif(id, motifId)
             }
 
-            showMotif(isMotifVisible)
-            showSejarah(isSejarahVisible)
+            btnBack.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
 
+            // Initialize visibility states
+            updateSectionVisibility(isMotifVisible, judulArtiMotif, tvArtiMotif)
+            updateSectionVisibility(isSejarahVisible, judulSejarahBatik, tvSejarahBatik)
+
+            // Set up click listeners
             judulArtiMotif.setOnClickListener {
                 isMotifVisible = !isMotifVisible
-                showMotif(isMotifVisible)
+                updateSectionVisibility(isMotifVisible, judulArtiMotif, tvArtiMotif)
             }
 
             judulSejarahBatik.setOnClickListener {
                 isSejarahVisible = !isSejarahVisible
-                showSejarah(isSejarahVisible)
+                updateSectionVisibility(isSejarahVisible, judulSejarahBatik, tvSejarahBatik)
             }
 
             detailViewModel.detailMotif.observe(this@DetailMotifActivity) { data ->
@@ -60,34 +67,15 @@ class DetailMotifActivity : AppCompatActivity() {
                     tvArtiMotif.text = it.artiMotif
                 }
             }
-
         }
-
-
     }
 
-    private fun showMotif(b: Boolean) {
-        val drawable = if (b) {
-            R.drawable.arrow_up_24
-        } else {
-            R.drawable.arrow_down_24
-        }
+    private fun updateSectionVisibility(isVisible: Boolean, button: TextView, content: View) {
+        val drawableRes = if (isVisible) R.drawable.arrow_up_24 else R.drawable.arrow_down_24
+        val rightDrawable = ContextCompat.getDrawable(this, drawableRes)
 
-        val rightDrawable = ContextCompat.getDrawable(this@DetailMotifActivity, drawable)
-        bind.judulArtiMotif.setCompoundDrawablesWithIntrinsicBounds(null, null, rightDrawable, null)
-        bind.tvArtiMotif.visibility = if (b) View.VISIBLE else View.GONE
-    }
-
-    private fun showSejarah(b: Boolean) {
-        val drawable = if (b) {
-            R.drawable.arrow_up_24
-        } else {
-            R.drawable.arrow_down_24
-        }
-
-        val rightDrawable = ContextCompat.getDrawable(this@DetailMotifActivity, drawable)
-        bind.judulSejarahBatik.setCompoundDrawablesWithIntrinsicBounds(null, null, rightDrawable, null)
-        bind.tvSejarahBatik.visibility = if (b) View.VISIBLE else View.GONE
+        button.setCompoundDrawablesWithIntrinsicBounds(null, null, rightDrawable, null)
+        content.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     companion object {

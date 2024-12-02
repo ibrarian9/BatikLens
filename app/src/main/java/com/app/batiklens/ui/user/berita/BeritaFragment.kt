@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.app.batiklens.databinding.FragmentBeritaBinding
+import com.app.batiklens.ui.user.MainActivity
+import com.app.batiklens.ui.user.home.HomeFragment
 import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,6 +24,10 @@ class BeritaFragment : Fragment() {
 
             id?.let {
                 beritaViewModel.berita(it)
+            }
+
+            btnBack.setOnClickListener {
+                (activity as MainActivity).loadFragments(HomeFragment())
             }
 
             beritaViewModel.beritaData.observe(viewLifecycleOwner) { data ->

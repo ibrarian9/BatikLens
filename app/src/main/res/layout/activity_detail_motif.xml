@@ -18,6 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/baseline_arrow_back_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -68,7 +79,8 @@
                     android:text="Arti Motif"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="40dp"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black"
                     app:drawableEndCompat="@drawable/arrow_up_24" />
 
@@ -96,7 +108,8 @@
                     android:text="@string/sejarah_batik"
                     android:paddingVertical="10dp"
                     android:paddingHorizontal="40dp"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
+                    android:gravity="center_vertical"
                     android:textColor="@color/black"
                     app:drawableEndCompat="@drawable/arrow_up_24" />
 

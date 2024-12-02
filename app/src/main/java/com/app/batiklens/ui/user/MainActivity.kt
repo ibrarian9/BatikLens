@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(SELECTED_NAV_ITEM, bind.botNavbar.selectedItemId)
     }
 
-    private fun loadFragments(fragment: Fragment) {
+    fun loadFragments(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.frame, fragment)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)

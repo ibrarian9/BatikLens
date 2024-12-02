@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.batiklens.adapters.ArtikelAdapter
@@ -46,6 +47,21 @@ class HomeFragment : Fragment() {
                     artikelAdapter.submitList(it)
                 }
             }
+
+            cariArtikel.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (!query.isNullOrEmpty()) {
+                        artikelAdapter.submitList(emptyList())
+
+                        homeViewModel.semuaArtikel(query)
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+            })
         }
     }
 

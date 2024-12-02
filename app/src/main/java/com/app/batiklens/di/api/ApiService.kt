@@ -6,6 +6,7 @@ import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
 import com.app.batiklens.di.models.ResponseMessage
+import com.app.batiklens.di.models.UserModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -15,6 +16,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.PartMap
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -27,6 +29,11 @@ interface ApiService {
 
     @GET("/news")
     suspend fun semuaArtikel(): Response<List<ArtikelModelItem>>
+
+    @GET("/news/search")
+    suspend fun searchArtikel(
+        @Query("search") search: String
+    ): Response<List<ArtikelModelItem>>
 
     @GET("/news/{id}")
     suspend fun detailArtikel(@Path("id") id: Int): Response<ArtikelModelItem>
@@ -46,4 +53,8 @@ interface ApiService {
         @Path("motifId") motifId: Int
     ): Response<ListBatikItem>
 
+    @GET("/user/{id}")
+    suspend fun getDetailProfile(
+        @Path("id") id: String
+    ): Response<UserModel>
 }
