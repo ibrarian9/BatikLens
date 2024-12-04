@@ -25,19 +25,23 @@ import androidx.core.view.WindowInsetsCompat
 import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityScannerBinding
 import com.app.batiklens.databinding.ScannerInfoViewBinding
+import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
 import com.app.batiklens.helper.ImageClassifierHelper
 import com.app.batiklens.ui.user.result.ResultActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.tensorflow.lite.task.vision.classifier.Classifications
 import java.io.File
 
 class ScannerActivity : AppCompatActivity() {
 
     private lateinit var bind: ActivityScannerBinding
-    private lateinit var imageClassier: ImageClassifierHelper
     private lateinit var imageCapture: ImageCapture
+    private lateinit var imageClassier: ImageClassifierHelper
     private var imageUri: Uri? = null
+    private var imageFile: File? = null
     private var dialog: Dialog? = null
+    private val scannerViewModel: ScannerViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,18 +63,31 @@ class ScannerActivity : AppCompatActivity() {
                 requestCameraPermission()
             }
 
+            scannerViewModel.modelPredict.observe(this@ScannerActivity) { result ->
+                result.onSuccess {
+                    val i = Intent(this@ScannerActivity, ResultActivity::class.java).apply {
+                        putExtra(ResultActivity.MOTIF_NAME, it)
+                    }
+                    startActivity(i)
+                }.onFailure {
+                    messageToast(this@ScannerActivity, it.toString())
+                }
+            }
+
             tipsButton.setOnClickListener {
                 dialog = Dialog(this@ScannerActivity)
                 val dialogBind = ScannerInfoViewBinding.inflate(layoutInflater)
-                dialog?.setContentView(dialogBind.root)
-                dialog?.setCancelable(false)
-                dialogFull(dialog!!)
+                dialog?.let { data ->
+                    data.setContentView(dialogBind.root)
+                    data.setCancelable(false)
+                    dialogFull(data)
 
-                dialogBind.masuk.setOnClickListener {
-                    dialog!!.dismiss()
+                    dialogBind.masuk.setOnClickListener {
+                        data.dismiss()
+                    }
+
+                    data.show()
                 }
-
-                dialog?.show()
             }
 
             galleryButton.setOnClickListener {
@@ -84,8 +101,10 @@ class ScannerActivity : AppCompatActivity() {
                         Log.e("error", err)
                     }
 
-                    override fun onResult(result: List<Classifications>?) {
+                    override fun onResult(result: List<Classifications>?,  inferenceTime: Double) {
                         result?.let { classifications ->
+                            Log.e("data classification : ", classifications.toString())
+                            Log.e("waktu : ", inferenceTime.toString())
                             // Iterate through the classifications
                             classifications.forEach { classification ->
                                 classification.categories.forEach { category ->
@@ -97,6 +116,7 @@ class ScannerActivity : AppCompatActivity() {
                                         putExtra(ResultActivity.MOTIF_NAME, motifName)
                                         putExtra(ResultActivity.MOTIF, motif)
                                         putExtra(ResultActivity.SCORE, score)
+                                        putExtra(ResultActivity.WAKTU, inferenceTime)
                                     }
                                     startActivity(i)
                                 }
@@ -117,9 +137,10 @@ class ScannerActivity : AppCompatActivity() {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                             imageUri = Uri.fromFile(photoFile)
                             // Classify the image using the URI
-                            imageUri?.let {
-                                imageClassier.classifyStaticImage(it)
-                            }
+//                            imageUri?.let {
+//                                imageClassier.classifyStaticImage(it)
+//                            }
+//                            scannerViewModel.predictModel(photoFile)
                         }
 
                         override fun onError(exception: ImageCaptureException) {
@@ -183,8 +204,13 @@ class ScannerActivity : AppCompatActivity() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         uri?.let {
-            imageUri = it
-            imageClassier.classifyStaticImage(it)
+            imageFile = getPath(this@ScannerActivity, it)?.let { it1 -> File(it1) }
+            if (imageFile != null){
+                scannerViewModel.predictModel(imageFile!!)
+            } else {
+                messageToast(this@ScannerActivity, "Failed to get the image file.")
+            }
+
         }
     }
 

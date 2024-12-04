@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityMainBinding
-import com.app.batiklens.ui.user.history.HistoryFragment
+import com.app.batiklens.ui.user.compare.CompareModelFragment
 import com.app.batiklens.ui.user.home.HomeFragment
 import com.app.batiklens.ui.user.profil.ProfileFragment
 import com.app.batiklens.ui.user.provinsi.MotifFragment
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.nav_history -> {
-                        loadFragments(HistoryFragment())
+                        loadFragments(CompareModelFragment())
                         true
                     }
                     R.id.nav_profile -> {
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.frame, fragment)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            addToBackStack(null)
+            disallowAddToBackStack()
             commit()
         }
     }

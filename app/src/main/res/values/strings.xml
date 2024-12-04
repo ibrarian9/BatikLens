@@ -37,4 +37,50 @@
     <string name="batik_lens_info">Aplikasi ini dirancang untuk membantu pengguna mengenali dan memahami kekayaan motif batik Indonesia. Batik adalah salah satu warisan budaya Indonesia yang kaya, dengan setiap motifnya menyimpan cerita, makna, dan asal-usul yang unik. Sayangnya, banyak orang masih kesulitan mengenali motif-motif batik yang mereka temui, sehingga keunikan dan nilai budaya dari batik kurang dihargai. Saat ini, belum ada platform yang secara khusus menyediakan informasi komprehensif mengenai berbagai motif batik. Untuk menjawab tantangan ini, aplikasi ini memanfaatkan metode Convolutional Neural Network (CNN) untuk mengidentifikasi motif batik melalui gambar, baik yang diambil langsung maupun dari foto yang sudah tersimpan. Dengan penerapan model terbaik dalam pengenalan motif batik, serta penggunaan teknik data augmentation dan transfer learning, aplikasi ini mampu memberikan hasil yang akurat.</string>
     <string name="info_motif">Untuk mengetahu motif batik, anda bisa melakukannya dengan 2 hal yaitu mencari motif batik pada halaman motif bisa mencari berdasarkan daerahnya atau dipencarian, cara kedua yaitu dengan memfoto batik pada halaman kamera dan hasil dari foto akan keluar yaitu informasi tentang nama batik, arti motif dan sejarahnya.</string>
     <string name="tutorial">Untuk memfoto batik agar mengetahui informasi tentang batik anda bisa mengikuti langkah-langkah sebagai berikut : Buka halam kamera Posisikan perangkat/device kearah batik yang ingin anda foto klik ikon bulat untuk memfoto Tunggu hasil analisis hasl keluar dan anda bisa membaca informasi dari hasil foto anda tetapi jika gagal anda bisa mengulang lagi pastikan kamera dalam posisi yang pas dan fokus.</string>
+    <string name="batik_parang">Batik Parang</string>
+    <string name="capture">Capture</string>
+    <string name="home">Home</string>
+    <string name="motif">Motif</string>
+    <string name="compare">Compare</string>
+    <string name="history">History</string>
+    <string name="cnn_model">CNN MODEL</string>
+    <string name="compare_model">Compare Model</string>
+    <string name="vgg19_model">VGG19 MODEL</string>
+    <string name="mobilenetv2_model">MOBILENETV2 MODEL</string>
+    <string name="inception_v3">Inception V3</string>
+    <string name="xception">Xception</string>
+    <string name="prediksi">Prediksi</string>
+    <string name="detail_classification">Detail Classification</string>
+    <string name="nama_model">Nama Model</string>
+    <string name="_99_0">99.0</string>
+    <string name="name_batik_merak">Name Batik : Merak</string>
+    <string name="models">Models</string>
+    <string name="confidance">Confidance(%)</string>
+    <string name="result">Result</string>
+    <string name="nama_batik_ragen_pangantem">Nama Batik : Ragen Pangantem</string>
+
+    <string-array name="data_name">
+        <item>Barong</item>
+        <item>Sidoluhur</item>
+        <item>Merak</item>
+        <item>Ondel-Ondel</item>
+        <!--        <item>Megamendung</item>-->
+        <!--        <item>Kawung</item>-->
+    </string-array>
+
+    <string-array name="data_link">
+        <item>https://firebasestorage.googleapis.com/v0/b/newsapi-442013.firebasestorage.app/o/DataBatik%2FBali_Barong.jpg?alt=media&amp;token=7658f0d2-14fb-4489-b080-fa1dc1cccc02</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/newsapi-442013.firebasestorage.app/o/DataBatik%2FJawaTengah_Sidoluhur.jpg?alt=media&amp;token=71b84348-c327-4fac-9335-1f3c5fb5bbf7</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/newsapi-442013.firebasestorage.app/o/DataBatik%2FBali_Merak.jpg?alt=media&amp;token=c104ca33-58a0-416b-bb9d-e05e5d5639dd</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/newsapi-442013.firebasestorage.app/o/DataBatik%2FJakarta_Ondel_Ondel.jpg?alt=media&amp;token=38b4b02b-bc11-4844-a06d-2dea4ce39322</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/motifhome-442219.firebasestorage.app/o/Jawa_Barat_Megamendung.jpg?alt=media&amp;token=1ab3f34d-190d-40d3-9f5b-5f81b7c342dc</item>
+        <item>https://firebasestorage.googleapis.com/v0/b/newsapi-442013.firebasestorage.app/o/DataBatik%2FYogyakarta_Kawung.jpg?alt=media&amp;token=a8c3897e-001e-4bcd-8332-eba92447657f</item>
+    </string-array>
+
+    <string-array name="data_image">
+        <item>@drawable/bali_barong</item>
+        <item>@drawable/jawatengah_sidoluhur</item>
+        <item>@drawable/bali_merak</item>
+        <item>@drawable/jakarta_ondel_ondel</item>
+    </string-array>
 </resources>

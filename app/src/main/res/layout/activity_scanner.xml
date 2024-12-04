@@ -5,8 +5,60 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondColor"
+    android:background="@color/mainColor"
     tools:context=".ui.user.scanBatik.ScannerActivity">
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/mainColor"
+            android:contentDescription="TODO"
+            android:padding="20dp"
+            android:src="@drawable/baseline_arrow_back_24" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:id="@+id/flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:gravity="center">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/mainColor"
+                android:contentDescription="Flash Button"
+                android:src="@drawable/outline_flash_on_24" />
+
+            <TextView
+                android:id="@+id/flashLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flash"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <!-- Camera Preview -->
     <androidx.camera.view.PreviewView
@@ -17,7 +69,18 @@
         app:layout_constraintBottom_toTopOf="@+id/captureButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/top" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/captureButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        android:scaleType="centerCrop" />
 
     <!-- Capture Button -->
     <com.google.android.material.imageview.ShapeableImageView
@@ -29,7 +92,7 @@
         android:src="@drawable/outline_camera_alt_24"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
         android:scaleType="center"
-        android:contentDescription="Capture"
+        android:contentDescription="@string/capture"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -43,7 +106,7 @@
         android:textSize="12sp"
         android:textColor="@color/black"
         android:gravity="center"
-        android:backgroundTint="@color/secondColor"
+        android:backgroundTint="@color/mainColor"
         app:drawableTopCompat="@drawable/outline_image_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/captureButton"
@@ -59,7 +122,7 @@
         android:textSize="12sp"
         android:textColor="@color/black"
         android:gravity="center"
-        android:backgroundTint="@color/secondColor"
+        android:backgroundTint="@color/mainColor"
         app:drawableTopCompat="@drawable/baseline_info_outline_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

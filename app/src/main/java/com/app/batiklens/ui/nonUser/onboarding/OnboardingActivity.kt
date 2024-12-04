@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
 import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityOnboardingBinding
 import com.app.batiklens.ui.user.MainActivity
@@ -42,11 +43,15 @@ class OnboardingActivity : AppCompatActivity() {
 
         if (savedInstanceState == null){
             val firstFragment = OnboardingPageFragment()
-            supportFragmentManager.beginTransaction().apply {
-                add(R.id.placeholder, firstFragment)
-                disallowAddToBackStack()
-                commit()
-            }
+            loadFragment(firstFragment)
+        }
+    }
+
+    fun loadFragment(fragment: Fragment, ) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.placeholder, fragment)
+            disallowAddToBackStack()
+            commit()
         }
     }
 }

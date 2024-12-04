@@ -42,7 +42,13 @@
             android:textSize="30sp"
             android:text="Motif : Nama" />
 
-
+        <TextView
+            android:id="@+id/waktu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:layout_marginVertical="20sp"
+            android:text="Motif : Nama" />
 
     </LinearLayout>
 

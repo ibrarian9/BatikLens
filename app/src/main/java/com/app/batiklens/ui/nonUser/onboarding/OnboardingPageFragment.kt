@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
-import com.app.batiklens.R
 import com.app.batiklens.databinding.OnboardingPageBinding
 import com.app.batiklens.ui.nonUser.login.LoginActivity
 
@@ -33,13 +31,13 @@ class OnboardingPageFragment : Fragment() {
             }
             next.setOnClickListener {
                 val secondFragment = OnboardingPageSecondFragment()
-                parentFragmentManager.beginTransaction().apply {
-                    replace(R.id.placeholder, secondFragment)
-                    addToBackStack(null)
-                    setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    commit()
-                }
+                (activity as OnboardingActivity).loadFragment(secondFragment)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

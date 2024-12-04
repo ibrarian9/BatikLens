@@ -29,10 +29,13 @@ class ResultActivity : AppCompatActivity() {
             val resultData = intent.getStringExtra(MOTIF_NAME)
             val namaMotif = intent.getStringExtra(MOTIF)
             val scoreData = intent.getFloatExtra(SCORE, 0f)
+            val waktuData = intent.getDoubleExtra(WAKTU, 0.0)
 
             result.text = "Nama Motif : $resultData"
             motif.text = "Jenis Motif : $namaMotif"
             akurasi.text = "Score Akurasi : $scoreData"
+            waktu.text = "Waktu : $waktuData Detik"
+
         }
     }
 
@@ -40,5 +43,6 @@ class ResultActivity : AppCompatActivity() {
         const val MOTIF_NAME = "motifname"
         const val MOTIF = "motif"
         const val SCORE = "score"
+        const val WAKTU = "waktu"
     }
 }

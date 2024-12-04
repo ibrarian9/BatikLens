@@ -27,7 +27,7 @@
             android:layout_gravity="bottom"
             android:layout_margin="10dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
-            android:backgroundTint="@color/secondColor"
+            android:backgroundTint="@color/thirdColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -36,7 +36,7 @@
                 android:id="@+id/namaMotif"
                 android:layout_width="match_parent"
                 android:layout_height="26dp"
-                android:text="Batik Parang"
+                android:text="@string/batik_parang"
                 android:textColor="@color/black"
                 android:gravity="center"
                 android:textSize="12sp" />

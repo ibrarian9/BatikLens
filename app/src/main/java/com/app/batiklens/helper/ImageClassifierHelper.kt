@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.SystemClock
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.CastOp
 import org.tensorflow.lite.support.image.ImageProcessor
@@ -16,8 +17,8 @@ import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 
 class ImageClassifierHelper(
     private val threshold: Float = 0.1f,
-    private val maxResult: Int = 3,
-    private val modulName: String = "BatikLens_Model_with_Metadata.tflite",
+    private val maxResult: Int = 1,
+    private val modulName: String = "BatikLens_Xception_Model_Metadata.tflite",
     private val context: Context,
     private val classifierListener: ClassifierListener?
 ) {
@@ -27,7 +28,8 @@ class ImageClassifierHelper(
     interface ClassifierListener {
         fun onErr(err: String)
         fun onResult(
-            result: List<Classifications>?
+            result: List<Classifications>?,
+            inferenceTime: Double
         )
     }
 
@@ -50,7 +52,7 @@ class ImageClassifierHelper(
                 optBuilder.build()
             )
         } catch (e: IllegalStateException) {
-            classifierListener?.onErr("Error")
+            classifierListener?.onErr(e.toString())
         }
     }
 
@@ -72,9 +74,13 @@ class ImageClassifierHelper(
         val imageProcessOpt = ImageProcessingOptions.builder()
             .build()
 
+        var inferenceTime = SystemClock.uptimeMillis()
         val results = imageClassifier?.classify(tensorImage, imageProcessOpt)
+        inferenceTime = SystemClock.uptimeMillis() - inferenceTime
+        val inferenceTimeInSecond = inferenceTime / 1000.0
         classifierListener?.onResult(
-            result = results
+            result = results,
+            inferenceTime = inferenceTimeInSecond
         )
     }
 }

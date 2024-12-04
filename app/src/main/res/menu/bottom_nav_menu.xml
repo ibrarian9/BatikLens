@@ -3,21 +3,21 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home_coklat"
-        android:title="Home" />
+        android:title="@string/home" />
     <item
         android:id="@+id/nav_motif"
-        android:icon="@drawable/motif_coklat"
-        android:title="Motif" />
+        android:icon="@drawable/motif"
+        android:title="@string/motif" />
     <item
         android:id="@+id/nav_scanner"
         android:title=""
         android:enabled="false"/>
     <item
         android:id="@+id/nav_history"
-        android:icon="@drawable/clock_coklat"
-        android:title="History" />
+        android:icon="@drawable/compare"
+        android:title="@string/compare" />
     <item
         android:id="@+id/nav_profile"
-        android:icon="@drawable/user_coklat"
-        android:title="Profile" />
+        android:icon="@drawable/lu_user"
+        android:title="@string/profile" />
 </menu>

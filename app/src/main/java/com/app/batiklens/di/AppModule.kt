@@ -1,6 +1,7 @@
 package com.app.batiklens.di
 
 import com.app.batiklens.di.api.ApiService
+import com.app.batiklens.di.api.ModelApiService
 import com.app.batiklens.ui.nonUser.login.LoginViewModel
 import com.app.batiklens.ui.nonUser.register.RegisterViewModel
 import com.app.batiklens.ui.user.berita.BeritaViewModel
@@ -17,13 +18,14 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val appModule = module {
 
-    single {
+    single(named("MainApi")) {
         val url = "https://api-tysphbhbhq-uc.a.run.app"
 
         val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -45,11 +47,39 @@ val appModule = module {
             .build()
     }
 
+    single(named("ModelApi")) {
+        val url = "https://flask-ml-model-516544967646.us-central1.run.app"
+
+        val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        val authInterceptor = Interceptor {
+            val req = it.request()
+            val reqHeaders = req.newBuilder()
+                .build()
+            it.proceed(reqHeaders)
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .addInterceptor(authInterceptor)
+            .build()
+
+        Retrofit.Builder()
+            .baseUrl(url)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+    }
+
     // Provide ApiService instance
-    single { get<Retrofit>().create(ApiService::class.java) }
+    single(named("MainApi")) { get<Retrofit>(named("MainApi")).create(ApiService::class.java) }
+    single(named("ModelApi")) { get<Retrofit>(named("ModelApi")).create(ModelApiService::class.java) }
 
     // Provide Repository
-    single { MainRepository(apiService = get()) }
+    single {
+        MainRepository(
+            apiService = get(named("MainApi")),
+            modelApiService = get(named("ModelApi"))
+        )
+    }
 
     // Provide ViewModel
     viewModel { HomeViewModel(get()) }

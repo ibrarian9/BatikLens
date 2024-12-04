@@ -69,33 +69,15 @@
 
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
+            <Button
+                android:id="@+id/next"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="4dp"
-                android:backgroundTint="@color/white"
-                app:strokeColor="@color/mainColor"
-                app:strokeWidth="2dp"
-                android:clickable="true"
-                android:focusable="true"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large">
-
-                <Button
-                    android:id="@+id/next"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:includeFontPadding="false"
-                    android:background="@null"
-                    app:rippleColor="@color/mainColor"
-                    android:backgroundTint="@color/white"
-                    android:drawableTint="@color/white"
-                    android:text="@string/lanjutkan"
-                    android:textColor="@color/mainColor"
-                    android:contentDescription="@string/lanjutkan" />
-
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:includeFontPadding="false"
+                android:background="@drawable/button_white_color"
+                android:text="@string/lanjutkan"
+                android:contentDescription="@string/lanjutkan" />
 
             <Button
                 android:id="@+id/lewati"

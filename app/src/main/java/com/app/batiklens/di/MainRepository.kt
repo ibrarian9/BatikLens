@@ -1,13 +1,16 @@
 package com.app.batiklens.di
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.batiklens.di.api.ApiService
+import com.app.batiklens.di.api.ModelApiService
 import com.app.batiklens.di.models.ArtikelModelItem
 import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
 import com.app.batiklens.di.models.RegisterDTO
+import com.app.batiklens.di.models.ResponseMotifItem
 import com.app.batiklens.di.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
@@ -17,10 +20,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 class MainRepository(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val modelApiService: ModelApiService
 ) {
     private val timeLoading: Long = 1000
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -43,6 +49,47 @@ class MainRepository(
         } catch (e: Exception){
             _error.value = e.message.toString()
         }
+    }
+
+    suspend fun cariMotif(query: String): List<ResponseMotifItem> {
+        _loading.value = true
+
+        return try {
+            val res = apiService.cariMotif(query)
+            if (res.isSuccessful){
+                res.body() ?: emptyList()
+            } else {
+                emptyList()
+            }
+        } catch (e: Exception){
+            _error.value = e.toString()
+            emptyList()
+        } finally {
+            _loading.value = false
+        }
+    }
+
+    suspend fun predictModel(image: File): Result<String> {
+        _loading.value = true
+
+        val photo = image.asRequestBody("image/jpeg".toMediaTypeOrNull())
+        val imageMultipart: MultipartBody.Part =
+            MultipartBody.Part.createFormData("file", image.name, photo)
+
+        return try {
+            val res = modelApiService.predictModel(imageMultipart)
+            Log.e("Error guys", res.toString())
+            if (res.isSuccessful){
+                Result.success(res.body()?.predictedLabel ?: "Predict Berhasil")
+            } else {
+                Result.failure(Exception("Predict Gagal"))
+            }
+        } catch (e: Exception){
+            Result.failure(e)
+        } finally {
+            _loading.value = false
+        }
+
     }
 
     suspend fun getDetailProfil(id: String): UserModel? {

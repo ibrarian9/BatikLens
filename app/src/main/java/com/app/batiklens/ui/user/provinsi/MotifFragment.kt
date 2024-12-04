@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.batiklens.adapters.ListMotifAdapter
 import com.app.batiklens.adapters.ProvinsiAdapter
 import com.app.batiklens.databinding.FragmentMotifBinding
+import com.app.batiklens.di.models.ListBatikItem
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MotifFragment : Fragment() {
 
     private val adapterProvinsi = ProvinsiAdapter()
+    private val motifAdapter = ListMotifAdapter(0)
     private var _binding: FragmentMotifBinding? = null
     private val bind get() = _binding!!
     private val motifViewModel: MotifViewModel by viewModel()
@@ -35,6 +39,43 @@ class MotifFragment : Fragment() {
                     adapterProvinsi.submitList(it)
                 }
             }
+
+            motifViewModel.cariMotif.observe(viewLifecycleOwner) { data ->
+                data.let {
+                    listMotif.addItemDecoration(SpaceItemDecoration(10, 10))
+                    listMotif.adapter = motifAdapter
+
+                    // Map the data into a list of ListBatikItem
+                    val listDataMotif = it.map { item ->
+                        ListBatikItem(
+                            namaMotif = item.namaMotif,
+                            foto = item.foto,
+                            id = 0,
+                            artiMotif = item.artiMotif,
+                            sejarahBatik = item.sejarahBatik
+                        )
+                    }
+
+                    // Submit the entire list to the adapter
+                    motifAdapter.submitList(listDataMotif)
+                }
+            }
+
+            cariMotifBatik.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (!query.isNullOrEmpty()) {
+                        adapterProvinsi.submitList(emptyList())
+
+                        motifViewModel.cariMotif(query)
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+
+            })
         }
     }
 

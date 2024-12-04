@@ -6,6 +6,7 @@ import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
 import com.app.batiklens.di.models.ResponseMessage
+import com.app.batiklens.di.models.ResponseMotifItem
 import com.app.batiklens.di.models.UserModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -40,6 +41,11 @@ interface ApiService {
 
     @GET("/motif")
     suspend fun semuaMotifHome(): Response<List<MotifModelItem>>
+
+    @GET("/motif/search")
+    suspend fun cariMotif(
+        @Query("search") search: String
+    ): Response<List<ResponseMotifItem>>
 
     @GET("/provinsi")
     suspend fun semuaProvinsiMotif(): Response<List<ProvinsiMotifModelItem>>

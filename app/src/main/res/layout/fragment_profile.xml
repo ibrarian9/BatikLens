@@ -159,6 +159,35 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/white"
+                app:cardElevation="4dp"
+                app:rippleColor="@color/mainColor"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.ExtraLarge"
+                app:strokeColor="@color/mainColor"
+                app:strokeWidth="2dp">
+
+                <Button
+                    android:id="@+id/listHistory"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="20dp"
+                    android:backgroundTint="@color/white"
+                    android:drawableTint="@color/mainColor"
+                    android:includeFontPadding="false"
+                    android:drawableLeft="@drawable/baseline_info_outline_24"
+                    android:drawableRight="@drawable/baseline_arrow_forward_ios_24"
+                    android:text="@string/history"
+                    android:gravity="start|center_vertical"
+                    android:textColor="@color/mainColor" />
+
+            </com.google.android.material.card.MaterialCardView>
+
             <Button
                 android:id="@+id/logout"
                 android:layout_width="match_parent"

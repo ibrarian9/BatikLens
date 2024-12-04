@@ -3,7 +3,9 @@ package com.app.batiklens.ui.nonUser.register
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Patterns
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -45,6 +47,10 @@ class RegisterActivity : AppCompatActivity() {
                 resultLauncherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
             }
 
+            loginBtn.setOnClickListener {
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            }
+
             registerViewModel.registerResult.observe(this@RegisterActivity) { result ->
                 result.onSuccess {
                     val i = Intent(this@RegisterActivity, LoginActivity::class.java).apply {
@@ -55,6 +61,21 @@ class RegisterActivity : AppCompatActivity() {
                     messageToast(this@RegisterActivity, it.message ?: "Register Error")
                 }
             }
+
+            email.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    s?.let {
+                        val isValidEmail: Boolean = !TextUtils.isEmpty(it) && Patterns.EMAIL_ADDRESS.matcher(it).matches()
+                        layoutEmail.error = if (isValidEmail){
+                            null
+                        } else {
+                            "Invalid Email format"
+                        }
+                    }
+                }
+            })
 
             password.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -94,6 +115,10 @@ class RegisterActivity : AppCompatActivity() {
                     }
                     dataConfirmPass.isEmpty() -> {
                         checkData("Confirm Password Wajib diisi")
+                        return@setOnClickListener
+                    }
+                    !Patterns.EMAIL_ADDRESS.matcher(dataEmail).matches() -> {
+                        checkData("Email format is invalid")
                         return@setOnClickListener
                     }
                     file == null -> {

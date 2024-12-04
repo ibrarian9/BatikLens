@@ -2,6 +2,10 @@ package com.app.batiklens.ui.nonUser.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
+import android.util.Patterns
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -48,6 +52,21 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
+            email.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    s?.let {
+                        val isValidEmail: Boolean = !TextUtils.isEmpty(it) && Patterns.EMAIL_ADDRESS.matcher(it).matches()
+                        layoutEmail.error = if (isValidEmail){
+                            null
+                        } else {
+                            "Invalid Email format"
+                        }
+                    }
+                }
+            })
+
             masuk.setOnClickListener {
 
                 val dataEmail = email.text.toString().trim()
@@ -60,6 +79,10 @@ class LoginActivity : AppCompatActivity() {
                     }
                     dataPassword.isEmpty() -> {
                         checkData("Harap isi Password")
+                        return@setOnClickListener
+                    }
+                    !Patterns.EMAIL_ADDRESS.matcher(dataEmail).matches() -> {
+                        checkData("Email format is invalid")
                         return@setOnClickListener
                     }
                     else -> {
