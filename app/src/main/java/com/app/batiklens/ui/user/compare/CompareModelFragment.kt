@@ -53,12 +53,12 @@ class CompareModelFragment : Fragment() {
             predict.setOnClickListener {
                 val selectedItem = dataLatihAdapter.getSelectedItem()
                 if (selectedItem == null) {
-                    messageToast(requireActivity(), "No batik motif selected!")
+                    messageToast(requireActivity(), "Tidak ada motif batik yang dipilih!")
                     return@setOnClickListener
                 }
 
                 if (selectedModels.isEmpty()) {
-                    messageToast(requireActivity(), "No model selected!")
+                    messageToast(requireActivity(), "Tidak ada model yang dipilih!")
                     return@setOnClickListener
                 }
 
@@ -93,7 +93,7 @@ class CompareModelFragment : Fragment() {
         val selectModulName = models.filter { it.value in selectedModels }
 
         if (selectModulName.isEmpty()) {
-            messageToast(requireActivity(), "No model selected!")
+            messageToast(requireActivity(), "Tidak ada model yang dipilih!")
             return
         }
 
@@ -124,7 +124,7 @@ class CompareModelFragment : Fragment() {
                                     displayComparisonResults(modelResults, linkImage, namaMotif)
                                 }
                             } else {
-                                messageToast(requireActivity(), "No categories found in classification result for model $name")
+                                messageToast(requireActivity(), "Tidak ditemukan kategori dalam hasil klasifikasi untuk model $name")
                             }
                         }
                     }

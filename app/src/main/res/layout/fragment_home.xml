@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/cari_berita_terupdate_seputar_batik_yuk"
                     android:textColor="@color/mainColor"
-                    android:textSize="25sp"
+                    android:textSize="23sp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.card.MaterialCardView
@@ -136,7 +136,7 @@
                     android:text="Semua"
                     android:background="@drawable/button_third_color"
                     android:textSize="12sp"
-                    android:layout_marginEnd="10sp"
+                    android:layout_marginEnd="15sp"
                     android:includeFontPadding="false"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="5dp" />
@@ -148,6 +148,7 @@
                     android:text="Fashion"
                     android:background="@drawable/button_white_color"
                     android:textSize="12sp"
+                    android:layout_marginBottom="5dp"
                     android:includeFontPadding="false"
                     android:paddingHorizontal="20dp"
                     android:paddingVertical="5dp" />

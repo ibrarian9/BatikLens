@@ -107,7 +107,7 @@ class EditProfileFragment : Fragment() {
             Glide.with(requireActivity()).load(it).fitCenter().into(bind.ivPoto)
             file = getPath(requireActivity(), it)?.let { it1 -> File(it1) }
             if (file == null) {
-                messageToast(context = requireActivity(), message = "Failed to get the image file.")
+                messageToast(context = requireActivity(), message = "Gagal mendapatkan file gambar.")
             }
         }
     }

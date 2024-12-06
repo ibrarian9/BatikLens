@@ -8,7 +8,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="110dp"
+        android:clipToPadding="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -33,6 +35,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/baseline_arrow_back_24"
+                android:background="@color/mainColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

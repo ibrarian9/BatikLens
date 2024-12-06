@@ -14,34 +14,34 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large" />
 
-   <LinearLayout
-       android:layout_weight="1"
-       android:layout_width="0dp"
-       android:layout_height="wrap_content"
-       android:orientation="vertical">
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-       <TextView
-           android:id="@+id/tvJudul"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="@string/judul_artikel"
-           android:maxLines="2"
-           android:textSize="14sp"
-           android:textStyle="bold"
-           android:justificationMode="inter_word"
-           android:layout_marginHorizontal="10dp" />
+        <TextView
+            android:id="@+id/tvJudul"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/judul_artikel"
+            android:maxLines="2"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:justificationMode="inter_word"
+            android:layout_marginHorizontal="10dp" />
 
-       <TextView
-           android:id="@+id/tvArtikel"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:text="@string/judul_artikel"
-           android:textSize="12sp"
-           android:justificationMode="inter_word"
-           android:layout_marginTop="10dp"
-           android:maxLines="4"
-           android:layout_marginHorizontal="10dp"/>
+        <TextView
+            android:id="@+id/tvArtikel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/judul_artikel"
+            android:textSize="12sp"
+            android:justificationMode="inter_word"
+            android:layout_marginTop="10dp"
+            android:maxLines="4"
+            android:layout_marginHorizontal="10dp"/>
 
-   </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -26,6 +26,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:src="@drawable/baseline_arrow_back_24"
+        android:background="@color/mainColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
