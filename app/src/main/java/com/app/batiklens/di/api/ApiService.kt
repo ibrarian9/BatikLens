@@ -2,6 +2,7 @@ package com.app.batiklens.di.api
 
 import com.app.batiklens.di.models.ArtikelModelItem
 import com.app.batiklens.di.models.DetailProvinsi
+import com.app.batiklens.di.models.FashionModelsItem
 import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
@@ -14,6 +15,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.PartMap
 import retrofit2.http.Path
@@ -63,4 +65,18 @@ interface ApiService {
     suspend fun getDetailProfile(
         @Path("id") id: String
     ): Response<UserModel>
+
+    @PUT("/edit-profile")
+    suspend fun editProfile(
+        @PartMap editProfileDTO: Map<String, @JvmSuppressWildcards RequestBody>,
+        @Part profileImage: MultipartBody.Part
+    ): Response<ResponseMessage>
+
+    @GET("/fashion")
+    suspend fun semuaFashion(): Response<List<FashionModelsItem>>
+
+    @GET("/fashion/{id}")
+    suspend fun detailFashion(
+        @Path("id") id: Int
+    ): Response<FashionModelsItem>
 }

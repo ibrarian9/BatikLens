@@ -16,7 +16,7 @@ import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityRegisterBinding
 import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
-import com.app.batiklens.di.models.RegisterDTO
+import com.app.batiklens.di.models.DTO.RegisterDTO
 import com.app.batiklens.ui.nonUser.login.LoginActivity
 import com.bumptech.glide.Glide
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

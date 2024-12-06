@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.batiklens.di.MainRepository
+import com.app.batiklens.di.models.PredictedLabel
 import kotlinx.coroutines.launch
 import java.io.File
 
 class ScannerViewModel(private val repo: MainRepository): ViewModel() {
 
-    private val _modelPredict = MutableLiveData<Result<String>>()
-    val modelPredict : LiveData<Result<String>> = _modelPredict
+    private val _modelPredict = MutableLiveData<PredictedLabel?>()
+    val modelPredict : LiveData<PredictedLabel?> = _modelPredict
 
     fun predictModel(file: File) {
         viewModelScope.launch {

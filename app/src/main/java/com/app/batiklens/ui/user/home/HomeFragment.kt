@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.batiklens.R
 import com.app.batiklens.adapters.ArtikelAdapter
+import com.app.batiklens.adapters.ListFashionAdapter
 import com.app.batiklens.adapters.MotifHorizontalAdapter
 import com.app.batiklens.databinding.FragmentHomeBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +20,9 @@ class HomeFragment : Fragment() {
     private val bind get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModel()
     private val artikelAdapter = ArtikelAdapter()
+    private val fashionAdapter = ListFashionAdapter()
     private val motifAdapter = MotifHorizontalAdapter()
+    private var isSelected = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,9 +46,38 @@ class HomeFragment : Fragment() {
             listBerita.layoutManager = LinearLayoutManager(requireActivity())
             listBerita.adapter = artikelAdapter
 
-            homeViewModel.semuaBerita.observe(viewLifecycleOwner){ listBerita ->
-                listBerita?.let {
-                    artikelAdapter.submitList(it)
+            homeViewModel.semuaBerita.observe(viewLifecycleOwner) { berita ->
+                if (isSelected) {
+                    berita?.let {
+                        listBerita.adapter = artikelAdapter
+                        artikelAdapter.submitList(it)
+                    }
+                }
+            }
+
+            tvAll.setOnClickListener {
+                if (!isSelected) {
+                    isSelected = true
+                    updateBackground()
+                    homeViewModel.semuaBerita.observe(viewLifecycleOwner){ berita ->
+                        berita?.let {
+                            listBerita.adapter = artikelAdapter
+                            artikelAdapter.submitList(it)
+                        }
+                    }
+                }
+            }
+
+            tvFashion.setOnClickListener {
+                if (isSelected) {
+                    isSelected = false
+                    updateBackground()
+                    homeViewModel.semuaFashion.observe(viewLifecycleOwner){ listFashion ->
+                        listFashion?.let { item ->
+                            listBerita.adapter = fashionAdapter
+                            fashionAdapter.submitList(item)
+                        }
+                    }
                 }
             }
 
@@ -62,6 +95,18 @@ class HomeFragment : Fragment() {
                     return false
                 }
             })
+        }
+    }
+
+    private fun updateBackground() {
+        bind.apply {
+            if (isSelected) {
+                tvAll.setBackgroundResource(R.drawable.button_third_color)
+                tvFashion.setBackgroundResource(R.drawable.button_white_color)
+            } else {
+                tvAll.setBackgroundResource(R.drawable.button_white_color)
+                tvFashion.setBackgroundResource(R.drawable.button_third_color)
+            }
         }
     }
 

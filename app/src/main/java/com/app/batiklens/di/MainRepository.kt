@@ -1,15 +1,17 @@
 package com.app.batiklens.di
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.batiklens.di.api.ApiService
 import com.app.batiklens.di.api.ModelApiService
 import com.app.batiklens.di.models.ArtikelModelItem
+import com.app.batiklens.di.models.DTO.EditProfileDTO
+import com.app.batiklens.di.models.DTO.RegisterDTO
+import com.app.batiklens.di.models.FashionModelsItem
 import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
+import com.app.batiklens.di.models.PredictedLabel
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
-import com.app.batiklens.di.models.RegisterDTO
 import com.app.batiklens.di.models.ResponseMotifItem
 import com.app.batiklens.di.models.UserModel
 import com.google.firebase.Firebase
@@ -51,6 +53,68 @@ class MainRepository(
         }
     }
 
+    suspend fun editProfile(editProfileDTO: EditProfileDTO): Result<String> {
+        _loading.value = true
+
+        return try {
+            val photo = editProfileDTO.photo.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData("photo", editProfileDTO.photo.name, photo)
+
+            val dataEdit = mapOf(
+                "uid" to editProfileDTO.uid.toRequestBody("text/plain".toMediaTypeOrNull()),
+                "name" to editProfileDTO.name.toRequestBody("text/plain".toMediaTypeOrNull()),
+                "email" to editProfileDTO.email.toRequestBody("text/plain".toMediaTypeOrNull())
+            )
+
+            val res = apiService.editProfile(editProfileDTO = dataEdit, profileImage = imageMultipart)
+            if (res.isSuccessful) {
+                Result.success(res.body()?.message ?: "Edit Profile Berhasil")
+            } else {
+                Result.failure(Exception("Edit Profile gagal"))
+            }
+        } catch (e: Exception){
+            Result.failure(Exception(e))
+        } finally {
+              _loading.value = false
+        }
+    }
+
+    suspend fun semuaFashion(): List<FashionModelsItem> {
+        _loading.value = true
+
+        return try {
+            val res = apiService.semuaFashion()
+            if (res.isSuccessful) {
+                res.body() ?: emptyList()
+            } else {
+                emptyList()
+            }
+        } catch (e: Exception) {
+            _error.value = e.toString()
+            emptyList()
+        } finally {
+            _loading.value = false
+        }
+    }
+
+    suspend fun detailFashion(id: Int): FashionModelsItem? {
+        _loading.value = true
+        return try {
+            val res = apiService.detailFashion(id)
+            if (res.isSuccessful) {
+                res.body()
+            } else {
+                _error.value = "Data Not Found"
+                null
+            }
+        } catch (e: Exception){
+            _error.value = e.toString()
+            null
+        } finally {
+            _loading.value = false
+        }
+    }
+
     suspend fun cariMotif(query: String): List<ResponseMotifItem> {
         _loading.value = true
 
@@ -69,7 +133,7 @@ class MainRepository(
         }
     }
 
-    suspend fun predictModel(image: File): Result<String> {
+    suspend fun predictModel(image: File): PredictedLabel? {
         _loading.value = true
 
         val photo = image.asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -78,14 +142,13 @@ class MainRepository(
 
         return try {
             val res = modelApiService.predictModel(imageMultipart)
-            Log.e("Error guys", res.toString())
             if (res.isSuccessful){
-                Result.success(res.body()?.predictedLabel ?: "Predict Berhasil")
+                res.body()?.predictedLabel
             } else {
-                Result.failure(Exception("Predict Gagal"))
+                null
             }
         } catch (e: Exception){
-            Result.failure(e)
+            null
         } finally {
             _loading.value = false
         }

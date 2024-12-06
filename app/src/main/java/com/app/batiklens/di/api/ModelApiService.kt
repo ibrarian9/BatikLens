@@ -1,6 +1,6 @@
 package com.app.batiklens.di.api
 
-import com.app.batiklens.di.models.PredictModel
+import com.app.batiklens.di.models.PredictLabel
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Multipart
@@ -13,5 +13,5 @@ interface ModelApiService {
     @POST("/predict")
     suspend fun predictModel(
         @Part scannerImage: MultipartBody.Part
-    ): Response<PredictModel>
+    ): Response<PredictLabel>
 }

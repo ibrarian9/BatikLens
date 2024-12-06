@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.batiklens.di.MainRepository
-import com.app.batiklens.di.models.RegisterDTO
+import com.app.batiklens.di.models.DTO.RegisterDTO
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 

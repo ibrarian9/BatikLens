@@ -21,13 +21,28 @@ class BeritaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
             val id = arguments?.getInt(DETAIL_ID, 0)
+            val idFashion = arguments?.getInt(DETAIL_FASHION_ID, 0)
 
-            id?.let {
-                beritaViewModel.berita(it)
+            if (id != 0 && id != null){
+                beritaViewModel.berita(id)
+            }
+
+            if (idFashion != 0 && idFashion != null){
+                beritaViewModel.fashion(idFashion)
             }
 
             btnBack.setOnClickListener {
                 (activity as MainActivity).loadFragments(HomeFragment())
+            }
+
+            beritaViewModel.fashionItem.observe(viewLifecycleOwner) { data ->
+                data?.let {
+                    Glide.with(requireActivity()).load(it.foto).into(ivPoto)
+                    tvJudul.text = it.judul
+                    tvNama.text = it.author
+                    tvTanggal.text = it.tanggal
+                    tvArtikel.text = it.deskripsi
+                }
             }
 
             beritaViewModel.beritaData.observe(viewLifecycleOwner) { data ->
@@ -58,6 +73,7 @@ class BeritaFragment : Fragment() {
 
     companion object {
         const val DETAIL_ID = "id"
+        const val DETAIL_FASHION_ID = "id_fashion"
     }
 
 }
