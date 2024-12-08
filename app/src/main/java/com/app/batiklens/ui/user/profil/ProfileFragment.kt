@@ -12,6 +12,7 @@ import com.app.batiklens.ui.nonUser.onboarding.OnboardingActivity
 import com.app.batiklens.ui.user.MainActivity
 import com.app.batiklens.ui.user.about.AboutActivity
 import com.app.batiklens.ui.user.editProfile.EditProfileFragment
+import com.app.batiklens.ui.user.history.HistoryFragment
 import com.bumptech.glide.Glide
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -46,6 +47,10 @@ class ProfileFragment : Fragment() {
 
             bantuan.setOnClickListener {
                 startActivity(Intent(requireActivity(), AboutActivity::class.java))
+            }
+
+            listHistory.setOnClickListener {
+                (activity as MainActivity).loadFragments(HistoryFragment())
             }
 
             logout.setOnClickListener {

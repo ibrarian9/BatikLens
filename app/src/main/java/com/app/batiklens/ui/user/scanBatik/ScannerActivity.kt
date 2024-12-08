@@ -132,7 +132,7 @@ class ScannerActivity : AppCompatActivity() {
                             if (photoFile.length() > maxSize) {
                                 messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
                             } else {
-                                scannerViewModel.predictModel(photoFile)
+                                    scannerViewModel.predictModel(photoFile)
                                 imageUri = FileProvider.getUriForFile(
                                     this@ScannerActivity,
                                     "${BuildConfig.APPLICATION_ID}.fileprovider",
@@ -236,7 +236,6 @@ class ScannerActivity : AppCompatActivity() {
                 }
             }
         }
-
     }
 
     private fun requestCameraPermission() {

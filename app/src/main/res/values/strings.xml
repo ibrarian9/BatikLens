@@ -84,6 +84,7 @@
     <string name="pindai_hanya_satu_jenis_batik">Pindai hanya satu jenis batik</string>
     <string name="pastikan_gambar_tidak_blur">Pastikan gambar tidak blur</string>
     <string name="posisikan_batik_dalam_frame">Posisikan batik dalam frame</string>
+    <string name="classification">Classification</string>
 
     <string-array name="data_name">
         <item>Barong</item>
