@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainColor"
+    android:background="@color/thirdColor"
     tools:context=".ui.user.scanBatik.ScannerActivity">
 
     <LinearLayout
@@ -21,10 +21,11 @@
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/mainColor"
-            android:contentDescription="TODO"
+            android:background="@color/thirdColor"
+            android:contentDescription="@string/app_name"
             android:padding="20dp"
-            android:src="@drawable/baseline_arrow_back_24" />
+            android:src="@drawable/baseline_arrow_back_24"
+            app:tint="@color/secondColor" />
 
         <View
             android:layout_width="0dp"
@@ -44,17 +45,18 @@
                 android:id="@+id/flashImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/mainColor"
-                android:contentDescription="Flash Button"
-                android:src="@drawable/outline_flash_on_24" />
+                android:background="@color/thirdColor"
+                android:contentDescription="@string/flash_button"
+                android:src="@drawable/outline_flash_on_24"
+                app:tint="@color/secondColor" />
 
             <TextView
                 android:id="@+id/flashLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flash"
+                android:text="@string/flash"
                 android:textSize="14sp"
-                android:textColor="@android:color/black"
+                android:textColor="@color/secondColor"
                 android:gravity="center" />
 
         </LinearLayout>
@@ -88,6 +90,7 @@
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toTopOf="@+id/captureButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -115,11 +118,12 @@
         android:id="@+id/galleryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Galeri"
+        android:text="@string/galeri"
         android:textSize="12sp"
-        android:textColor="@color/black"
+        android:textColor="@color/secondColor"
+        android:drawableTint="@color/secondColor"
         android:gravity="center"
-        android:backgroundTint="@color/mainColor"
+        android:backgroundTint="@color/thirdColor"
         app:drawableTopCompat="@drawable/outline_image_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/captureButton"
@@ -131,11 +135,12 @@
         android:id="@+id/tipsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tips"
+        android:text="@string/tips"
         android:textSize="12sp"
-        android:textColor="@color/black"
+        android:textColor="@color/secondColor"
+        android:drawableTint="@color/secondColor"
         android:gravity="center"
-        android:backgroundTint="@color/mainColor"
+        android:backgroundTint="@color/thirdColor"
         app:drawableTopCompat="@drawable/baseline_info_outline_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -152,6 +157,6 @@
         app:layout_constraintBottom_toTopOf="@+id/captureButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/top" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

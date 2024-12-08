@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +21,16 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.app.batiklens.BuildConfig
 import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityScannerBinding
 import com.app.batiklens.databinding.ScannerInfoViewBinding
 import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
+import com.app.batiklens.di.database.History
 import com.app.batiklens.ui.user.MainActivity
 import com.app.batiklens.ui.user.detailMotif.DetailMotifActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,6 +40,7 @@ class ScannerActivity : AppCompatActivity() {
 
     private lateinit var bind: ActivityScannerBinding
     private lateinit var imageCapture: ImageCapture
+    private var imageUri: Uri? = null
     private var dialog: Dialog? = null
     private var isFlashOn = false
     private val scannerViewModel: ScannerViewModel by viewModel()
@@ -72,10 +77,18 @@ class ScannerActivity : AppCompatActivity() {
 
             scannerViewModel.modelPredict.observe(this@ScannerActivity) { result ->
                 result?.let {
-                    messageToast(this@ScannerActivity, "Skor Akurasi : ${it.confidence}")
-                    if (result.confidence < 0.3) {
+
+                    val history = History(
+                        namaBatik = it.predictedLabel,
+                        imageUri = imageUri.toString(),
+                        confidence = it.confidence
+                    )
+
+                    val maxConfidence = 0.8
+                    if (result.confidence < maxConfidence) {
                         messageToast(this@ScannerActivity, "Ini Bukan Batik!")
                     } else {
+                        scannerViewModel.insertHistory(history)
                         val i = Intent(this@ScannerActivity, DetailMotifActivity::class.java).apply {
                             putExtra(DetailMotifActivity.DETAIL_ID, it.idProvinsi)
                             putExtra(DetailMotifActivity.DETAIL_MOTIF_ID, it.idMotif)
@@ -120,6 +133,11 @@ class ScannerActivity : AppCompatActivity() {
                                 messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
                             } else {
                                 scannerViewModel.predictModel(photoFile)
+                                imageUri = FileProvider.getUriForFile(
+                                    this@ScannerActivity,
+                                    "${BuildConfig.APPLICATION_ID}.fileprovider",
+                                    photoFile
+                                )
                             }
                         }
 
@@ -212,7 +230,10 @@ class ScannerActivity : AppCompatActivity() {
             when {
                 imageFile == null -> messageToast(this@ScannerActivity, "Gagal mengambil gambar file.")
                 imageFile.length() > maxSize -> messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
-                else -> scannerViewModel.predictModel(imageFile)
+                else -> {
+                    scannerViewModel.predictModel(imageFile)
+                    imageUri = selectedUri
+                }
             }
         }
 

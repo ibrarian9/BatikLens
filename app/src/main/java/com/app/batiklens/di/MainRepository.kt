@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.batiklens.di.api.ApiService
 import com.app.batiklens.di.api.ModelApiService
+import com.app.batiklens.di.database.History
+import com.app.batiklens.di.database.HistoryDao
 import com.app.batiklens.di.models.ArtikelModelItem
 import com.app.batiklens.di.models.DTO.EditProfileDTO
 import com.app.batiklens.di.models.DTO.RegisterDTO
@@ -26,10 +28,13 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MainRepository(
     private val apiService: ApiService,
-    private val modelApiService: ModelApiService
+    private val modelApiService: ModelApiService,
+    private val historyDao: HistoryDao
 ) {
     private val timeLoading: Long = 1000
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -54,6 +59,14 @@ class MainRepository(
         }
     }
 
+    private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+
+    fun insertHistory(history: History) = executorService.execute {
+        historyDao.insertHistory(history)
+    }
+
+    fun getAllHistory(): LiveData<List<History>> = historyDao.getAllHistory()
+
     suspend fun detailHomeBatik(id: Int): DetailMotifHome? {
         _loading.value = true
         return try {
@@ -61,7 +74,7 @@ class MainRepository(
             if (res.isSuccessful) {
                 res.body()
             } else {
-                _error.value = "Error : ${res.code()} - ${res.message()}"
+                _error.value = "Data Not Found"
                 null
             }
         } catch (e: Exception){

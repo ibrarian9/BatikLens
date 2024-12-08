@@ -76,6 +76,14 @@
     <string name="masuk_sini">Masuk Sini</string>
     <string name="vgg19">VGG19</string>
     <string name="vgg16">VGG16</string>
+    <string name="flash_button">Flash Button</string>
+    <string name="flash">Flash</string>
+    <string name="galeri">Galeri</string>
+    <string name="tips">Tips</string>
+    <string name="coba_sekarang">Coba Sekarang</string>
+    <string name="pindai_hanya_satu_jenis_batik">Pindai hanya satu jenis batik</string>
+    <string name="pastikan_gambar_tidak_blur">Pastikan gambar tidak blur</string>
+    <string name="posisikan_batik_dalam_frame">Posisikan batik dalam frame</string>
 
     <string-array name="data_name">
         <item>Barong</item>
