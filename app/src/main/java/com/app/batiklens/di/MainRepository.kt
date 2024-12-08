@@ -7,10 +7,11 @@ import com.app.batiklens.di.api.ModelApiService
 import com.app.batiklens.di.models.ArtikelModelItem
 import com.app.batiklens.di.models.DTO.EditProfileDTO
 import com.app.batiklens.di.models.DTO.RegisterDTO
+import com.app.batiklens.di.models.DetailMotifHome
 import com.app.batiklens.di.models.FashionModelsItem
 import com.app.batiklens.di.models.ListBatikItem
 import com.app.batiklens.di.models.MotifModelItem
-import com.app.batiklens.di.models.PredictedLabel
+import com.app.batiklens.di.models.PredictLabel
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
 import com.app.batiklens.di.models.ResponseMotifItem
 import com.app.batiklens.di.models.UserModel
@@ -50,6 +51,24 @@ class MainRepository(
             Firebase.auth.signOut()
         } catch (e: Exception){
             _error.value = e.message.toString()
+        }
+    }
+
+    suspend fun detailHomeBatik(id: Int): DetailMotifHome? {
+        _loading.value = true
+        return try {
+            val res = apiService.detailMotifHome(id)
+            if (res.isSuccessful) {
+                res.body()
+            } else {
+                _error.value = "Error : ${res.code()} - ${res.message()}"
+                null
+            }
+        } catch (e: Exception){
+            _error.value = e.toString()
+            null
+        } finally {
+            _loading.value = false
         }
     }
 
@@ -133,7 +152,7 @@ class MainRepository(
         }
     }
 
-    suspend fun predictModel(image: File): PredictedLabel? {
+    suspend fun predictModel(image: File): PredictLabel? {
         _loading.value = true
 
         val photo = image.asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -143,11 +162,13 @@ class MainRepository(
         return try {
             val res = modelApiService.predictModel(imageMultipart)
             if (res.isSuccessful){
-                res.body()?.predictedLabel
+                res.body()
             } else {
+                _error.value = "Data Tidak Ada"
                 null
             }
         } catch (e: Exception){
+            _error.value = e.message.toString()
             null
         } finally {
             _loading.value = false

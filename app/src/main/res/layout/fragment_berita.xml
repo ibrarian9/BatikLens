@@ -43,7 +43,6 @@
                 android:id="@+id/tvJudul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/judul_berita"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -83,7 +82,6 @@
                             android:layout_height="wrap_content"
                             android:paddingVertical="10dp"
                             android:paddingHorizontal="30dp"
-                            android:text="Siti Habibah"
                             android:textSize="15sp"
                             android:textColor="@color/white" />
 
@@ -108,7 +106,6 @@
                             android:layout_height="wrap_content"
                             android:paddingVertical="10dp"
                             android:paddingHorizontal="30dp"
-                            android:text="13 September 2024"
                             android:textSize="15sp"
                             android:textColor="@color/secondColor" />
 
@@ -122,8 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="20dp"
                     android:justificationMode="inter_word"
-                    android:textSize="15sp"
-                    android:text="@string/text_berita" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
 

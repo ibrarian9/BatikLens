@@ -1,6 +1,7 @@
 package com.app.batiklens.di.api
 
 import com.app.batiklens.di.models.ArtikelModelItem
+import com.app.batiklens.di.models.DetailMotifHome
 import com.app.batiklens.di.models.DetailProvinsi
 import com.app.batiklens.di.models.FashionModelsItem
 import com.app.batiklens.di.models.ListBatikItem
@@ -43,6 +44,11 @@ interface ApiService {
 
     @GET("/motif")
     suspend fun semuaMotifHome(): Response<List<MotifModelItem>>
+
+    @GET("/motif/{id}")
+    suspend fun detailMotifHome(
+        @Path("id") id: Int
+    ): Response<DetailMotifHome>
 
     @GET("/motif/search")
     suspend fun cariMotif(

@@ -9,10 +9,12 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraControl
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -25,6 +27,7 @@ import com.app.batiklens.databinding.ActivityScannerBinding
 import com.app.batiklens.databinding.ScannerInfoViewBinding
 import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
+import com.app.batiklens.ui.user.MainActivity
 import com.app.batiklens.ui.user.detailMotif.DetailMotifActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
@@ -33,9 +36,10 @@ class ScannerActivity : AppCompatActivity() {
 
     private lateinit var bind: ActivityScannerBinding
     private lateinit var imageCapture: ImageCapture
-    private var imageFile: File? = null
     private var dialog: Dialog? = null
+    private var isFlashOn = false
     private val scannerViewModel: ScannerViewModel by viewModel()
+    private val maxSize = 5 * 1024 * 1024
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,11 @@ class ScannerActivity : AppCompatActivity() {
         }
         bind.apply {
 
+            backBtn.setOnClickListener {
+                startActivity(Intent(this@ScannerActivity, MainActivity::class.java))
+                finish()
+            }
+
             if (ContextCompat.checkSelfPermission(this@ScannerActivity, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED) {
                 // Start Camera
@@ -57,13 +66,22 @@ class ScannerActivity : AppCompatActivity() {
                 requestCameraPermission()
             }
 
+            scannerViewModel.loading.observe(this@ScannerActivity) { isLoading ->
+                loading.visibility = if (isLoading) View.VISIBLE else View.GONE
+            }
+
             scannerViewModel.modelPredict.observe(this@ScannerActivity) { result ->
                 result?.let {
-                    val i = Intent(this@ScannerActivity, DetailMotifActivity::class.java).apply {
-                        putExtra(DetailMotifActivity.DETAIL_ID, it.idProvinsi)
-                        putExtra(DetailMotifActivity.DETAIL_MOTIF_ID, it.idMotif)
+                    messageToast(this@ScannerActivity, "Skor Akurasi : ${it.confidence}")
+                    if (result.confidence < 0.3) {
+                        messageToast(this@ScannerActivity, "Ini Bukan Batik!")
+                    } else {
+                        val i = Intent(this@ScannerActivity, DetailMotifActivity::class.java).apply {
+                            putExtra(DetailMotifActivity.DETAIL_ID, it.idProvinsi)
+                            putExtra(DetailMotifActivity.DETAIL_MOTIF_ID, it.idMotif)
+                        }
+                        startActivity(i)
                     }
-                    startActivity(i)
                 } ?: run {
                     messageToast(this@ScannerActivity, "Scanner Gagal!!")
                 }
@@ -98,28 +116,47 @@ class ScannerActivity : AppCompatActivity() {
                     ContextCompat.getMainExecutor(this@ScannerActivity),
                     object : ImageCapture.OnImageSavedCallback {
                         override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                            scannerViewModel.predictModel(photoFile)
+                            if (photoFile.length() > maxSize) {
+                                messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
+                            } else {
+                                scannerViewModel.predictModel(photoFile)
+                            }
                         }
 
                         override fun onError(exception: ImageCaptureException) {
-                            messageToast(this@ScannerActivity,"Image capture failed $exception" )
+                            messageToast(this@ScannerActivity,"Gambar Gagal diambil : $exception" )
                         }
                     }
                 )
             }
-
         }
+    }
+
+    private fun toggleFlash(cameraControl: CameraControl) {
+        isFlashOn = !isFlashOn
+        bind.flashImage.setImageResource(
+            if (isFlashOn) R.drawable.baseline_flash_off_24 else R.drawable.outline_flash_on_24
+        )
+
+        cameraControl.enableTorch(isFlashOn)
     }
 
     private fun dialogFull(d: Dialog) {
         d.window?.let {
-            it.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            val marginHorizontal = 2 // Adjust this value for desired margin in pixels
+            val layoutParamsWithMargin = FrameLayout.LayoutParams(layoutParams).apply {
+                leftMargin = marginHorizontal
+                rightMargin = marginHorizontal
+            }
+
+            d.findViewById<View>(android.R.id.content)?.layoutParams = layoutParamsWithMargin
             it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
-    }
-
-    private fun showLoading(isLoading: Boolean) {
-        bind.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun startCamera() {
@@ -144,12 +181,19 @@ class ScannerActivity : AppCompatActivity() {
                 try {
                     cameraProvider.unbindAll()
 
-                    cameraProvider.bindToLifecycle(
+                    val camera = cameraProvider.bindToLifecycle(
                         this@ScannerActivity,
                         cameraSelector,
                         preview,
                         imageCapture
                     )
+
+                    val cameraControl = camera.cameraControl
+
+                    flash.setOnClickListener {
+                        toggleFlash(cameraControl)
+                    }
+
                 } catch (e: Exception){
                     messageToast(this@ScannerActivity,"Error : $e" )
                 }
@@ -161,14 +205,17 @@ class ScannerActivity : AppCompatActivity() {
     private val resultLauncherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
-        uri?.let {
-            imageFile = getPath(this@ScannerActivity, it)?.let { it1 -> File(it1) }
-            if (imageFile != null){
-                scannerViewModel.predictModel(imageFile!!)
-            } else {
-                messageToast(this@ScannerActivity, "Failed to get the image file.")
+        uri?.let { selectedUri ->
+            val filePath = getPath(this@ScannerActivity, selectedUri)
+            val imageFile = filePath?.let { File(it) }
+
+            when {
+                imageFile == null -> messageToast(this@ScannerActivity, "Gagal mengambil gambar file.")
+                imageFile.length() > maxSize -> messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
+                else -> scannerViewModel.predictModel(imageFile)
             }
         }
+
     }
 
     private fun requestCameraPermission() {
@@ -177,7 +224,7 @@ class ScannerActivity : AppCompatActivity() {
                 if (isGranted) {
                     startCamera()
                 } else {
-                    messageToast(this@ScannerActivity,"Camera Permission Denied" )
+                    messageToast(this@ScannerActivity,"Izin Kamera Ditolak" )
                 }
             }
 

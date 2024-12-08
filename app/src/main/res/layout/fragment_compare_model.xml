@@ -38,51 +38,83 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-        <com.google.android.material.button.MaterialButtonToggleGroup
-            android:id="@+id/buttonToggleGroup"
+        <HorizontalScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/compare"
-            app:selectionRequired="true"
-            app:singleSelection="false">
+            app:layout_constraintTop_toBottomOf="@+id/compare">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/inceptionBtn"
-                android:layout_width="0dp"
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/buttonToggleGroup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/inception_v3"
-                app:backgroundTint="@color/selection_model"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-                app:strokeColor="@color/selection_model"
-                app:strokeWidth="2dp" />
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/compare"
+                app:selectionRequired="true"
+                app:singleSelection="false">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/mobilenetButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/mobilenetv2_model"
-                app:backgroundTint="@color/selection_model"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-                app:strokeColor="@color/selection_model"
-                app:strokeWidth="2dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/inceptionBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/inception_v3"
+                    app:backgroundTint="@color/selection_model"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+                    app:strokeColor="@color/selection_model"
+                    app:strokeWidth="2dp" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/xceptionBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/xception"
-                app:backgroundTint="@color/selection_model"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
-                app:strokeColor="@color/selection_model"
-                app:strokeWidth="2dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/mobilenetButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/mobilenetv2_model"
+                    app:backgroundTint="@color/selection_model"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+                    app:strokeColor="@color/selection_model"
+                    app:strokeWidth="2dp" />
 
-        </com.google.android.material.button.MaterialButtonToggleGroup>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/xceptionBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/xception"
+                    app:backgroundTint="@color/selection_model"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+                    app:strokeColor="@color/selection_model"
+                    app:strokeWidth="2dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/vgg19Btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/vgg19"
+                    app:backgroundTint="@color/selection_model"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+                    app:strokeColor="@color/selection_model"
+                    app:strokeWidth="2dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/vgg16Btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/vgg16"
+                    app:backgroundTint="@color/selection_model"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Large"
+                    app:strokeColor="@color/selection_model"
+                    app:strokeWidth="2dp" />
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        </HorizontalScrollView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listDataLatih"
@@ -91,7 +123,7 @@
             app:layout_constraintBottom_toTopOf="@+id/predict"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonToggleGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/scroll" />
 
         <Button
             android:id="@+id/predict"
@@ -108,6 +140,19 @@
             app:layout_constraintTop_toBottomOf="@+id/listDataLatih"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/mainColor"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

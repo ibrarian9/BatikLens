@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selamat Datang"
+                android:text="@string/selamat_datang"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -48,14 +48,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
-                android:text="Masukkan Akunmu"
+                android:text="@string/masukkan_akunmu"
                 android:textSize="20sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="11dp"
-                android:text="Email"
+                android:text="@string/email"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -75,7 +75,7 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Alamat Email"
+                    android:hint="@string/alamat_email"
                     android:includeFontPadding="false"
                     android:inputType="textEmailAddress" />
 
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="11dp"
-                android:text="Password"
+                android:text="@string/kata_sandi"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -107,7 +107,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password"
+                    android:hint="@string/kata_sandi"
                     android:includeFontPadding="false"
                     android:inputType="textPassword" />
 
@@ -119,9 +119,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginVertical="10dp"
-                android:text="Lupa Password?"
+                android:text="@string/lupa_password"
                 android:textColor="@color/mainColor" />
-
 
             <Button
                 android:id="@+id/masuk"
@@ -131,7 +130,7 @@
                 android:background="@drawable/button_maincolor"
                 android:drawableTint="@color/white"
                 android:includeFontPadding="false"
-                android:text="Masuk"
+                android:text="@string/masuk"
                 android:textColor="@color/white" />
 
             <LinearLayout
@@ -145,14 +144,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="Belum punya akun ?" />
+                    android:text="@string/belum_punya_akun" />
 
                 <TextView
                     android:id="@+id/SignUpBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:text="Daftar Sini"
+                    android:text="@string/daftar_sini"
                     android:textColor="@color/mainColor"
                     android:textStyle="bold" />
 

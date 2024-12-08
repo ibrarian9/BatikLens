@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buat Akun"
+            android:text="@string/buat_akun"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="10dp"
-            android:text="Lengkapi informasi di bawah ini"
+            android:text="@string/lengkapi_informasi_di_bawah_ini"
             android:textSize="20sp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -127,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="11dp"
-            android:text="Password"
+            android:text="@string/kata_sandi"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -148,7 +148,7 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Masukkan Password"
+                android:hint="@string/masukkan_kata_sandi"
                 android:includeFontPadding="false"
                 android:inputType="textPassword" />
 
@@ -158,7 +158,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="11dp"
-            android:text="Konfirmasi Password"
+            android:text="@string/konfirmasi_kata_sandi"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -180,7 +180,7 @@
                 android:id="@+id/konfirmasiPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Masukkan ulang Password"
+                android:hint="@string/masukkan_ulang_kata_sandi"
                 android:includeFontPadding="false"
                 android:inputType="textPassword" />
 
@@ -195,7 +195,7 @@
             android:background="@drawable/button_maincolor"
             android:drawableTint="@color/white"
             android:includeFontPadding="false"
-            android:text="Register"
+            android:text="@string/daftar"
             android:textColor="@color/white" />
 
     </LinearLayout>
@@ -214,14 +214,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Sudah Punya Akun ?" />
+            android:text="@string/sudah_punya_akun" />
 
         <TextView
             android:id="@+id/loginBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="Login Sini"
+            android:text="@string/masuk_sini"
             android:textColor="@color/mainColor"
             android:textStyle="bold" />
 

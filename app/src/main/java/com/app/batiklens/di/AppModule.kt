@@ -48,7 +48,7 @@ val appModule = module {
     }
 
     single(named("ModelApi")) {
-        val url = "https://batikfix-service-516544967646.us-central1.run.app"
+        val url = "https://batiklast-516544967646.asia-southeast1.run.app"
 
         val logging = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         val authInterceptor = Interceptor {

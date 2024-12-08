@@ -25,7 +25,7 @@ class ListModelAdapter: ListAdapter<PredictionResult, ListModelAdapter.ViewHolde
         fun binding(item: PredictionResult) {
             bind.apply {
                 tvModel.text = item.nameModul
-                tvConfidance.text = "${item.confidance}%"
+                tvConfidance.text = item.confidance
             }
         }
     }

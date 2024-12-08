@@ -51,18 +51,23 @@ class CompareModelFragment : Fragment() {
             dataLatihAdapter.submitList(dataLatih)
 
             predict.setOnClickListener {
+                loadingShow(true)
+
                 val selectedItem = dataLatihAdapter.getSelectedItem()
                 if (selectedItem == null) {
                     messageToast(requireActivity(), "Tidak ada motif batik yang dipilih!")
+                    loadingShow(false)
                     return@setOnClickListener
                 }
 
                 if (selectedModels.isEmpty()) {
                     messageToast(requireActivity(), "Tidak ada model yang dipilih!")
+                    loadingShow(false)
                     return@setOnClickListener
                 }
 
                 compareModels(selectedItem.linkImage, selectedItem.namaMotif)
+                loadingShow(false)
             }
 
             buttonToggleGroup.addOnButtonCheckedListener{ _, checkedId, isChecked ->
@@ -70,6 +75,8 @@ class CompareModelFragment : Fragment() {
                     R.id.inceptionBtn -> "BatikLens_InceptionV3_Model_Metadata.tflite"
                     R.id.mobilenetButton -> "BatikLens_Model_with_Metadata.tflite"
                     R.id.xceptionBtn -> "BatikLens_Xception_Model_Metadata.tflite"
+                    R.id.vgg16Btn -> "BatikLens_VGG16_Model_Metadata.tflite"
+                    R.id.vgg19Btn -> "BatikLens_VGG19_Model_Metadata.tflite"
                     else -> null
                 }
                 if (modulName != null) {
@@ -80,6 +87,7 @@ class CompareModelFragment : Fragment() {
     }
 
     private fun compareModels(linkImage: Int, namaMotif: String) {
+
         val uri = Uri.parse("android.resource://${requireActivity().packageName}/$linkImage")
 
         val modelResults = mutableListOf<PredictionResult>()
@@ -87,13 +95,16 @@ class CompareModelFragment : Fragment() {
         val models = mapOf(
             "Inception" to "BatikLens_InceptionV3_Model_Metadata.tflite",
             "MobileNet" to "BatikLens_Model_with_Metadata.tflite",
-            "Xception" to "BatikLens_Xception_Model_Metadata.tflite"
+            "Xception" to "BatikLens_Xception_Model_Metadata.tflite",
+            "VGG16" to "BatikLens_VGG16_Model_Metadata.tflite",
+            "VGG19" to "BatikLens_VGG19_Model_Metadata.tflite",
         )
 
         val selectModulName = models.filter { it.value in selectedModels }
 
         if (selectModulName.isEmpty()) {
             messageToast(requireActivity(), "Tidak ada model yang dipilih!")
+            loadingShow(false)
             return
         }
 
@@ -104,6 +115,7 @@ class CompareModelFragment : Fragment() {
                 classifierListener = object : ImageClassifierHelper.ClassifierListener {
                     override fun onErr(err: String) {
                         messageToast(requireActivity(), "$name Error : $err")
+                        loadingShow(false)
                     }
 
                     override fun onResult(result: List<Classifications>?, inferenceTime: Double) {
@@ -121,10 +133,12 @@ class CompareModelFragment : Fragment() {
                                 modelResults.add(predictionResult)
 
                                 if (modelResults.size == selectModulName.size) {
+                                    loadingShow(false)
                                     displayComparisonResults(modelResults, linkImage, namaMotif)
                                 }
                             } else {
                                 messageToast(requireActivity(), "Tidak ditemukan kategori dalam hasil klasifikasi untuk model $name")
+                                loadingShow(false)
                             }
                         }
                     }
@@ -132,6 +146,10 @@ class CompareModelFragment : Fragment() {
             )
             classifier.classifyStaticImage(uri)
         }
+    }
+
+    private fun loadingShow(isLoading: Boolean) {
+        bind.loading.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun displayComparisonResults(
@@ -152,8 +170,8 @@ class CompareModelFragment : Fragment() {
         val summary = StringBuilder()
         summary.append("Model Tercepat : ${fastest.nameModul} (${fastest.time}s)\n\n")
         summary.append("Model Terlambat : ${slowest.nameModul} (${slowest.time}s)\n\n")
-        summary.append("Skor Akurasi Tertinggi : ${highestConfidence.nameModul} (${highestConfidence.confidance}%)\n\n")
-        summary.append("Skor Akurasi Terendah : ${lowestConfidence.nameModul} (${lowestConfidence.confidance}%)\n")
+        summary.append("Skor Akurasi Tertinggi : ${highestConfidence.nameModul} (${highestConfidence.confidance})\n\n")
+        summary.append("Skor Akurasi Terendah : ${lowestConfidence.nameModul} (${lowestConfidence.confidance})\n")
 
 
         val i = Intent(requireActivity(), DetailCompareActivity::class.java).apply {

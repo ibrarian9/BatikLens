@@ -34,6 +34,11 @@ class DetailMotifActivity : AppCompatActivity() {
 
             val id = intent.getIntExtra(DETAIL_ID, 0)
             val motifId = intent.getIntExtra(DETAIL_MOTIF_ID, 0)
+            val homeId = intent.getIntExtra(HOME_ID, 0)
+
+            if (homeId != 0){
+                detailViewModel.detailMotifHome(homeId)
+            }
 
             if (id != 0 && motifId != 0){
                detailViewModel.detailMotif(id, motifId)
@@ -67,6 +72,15 @@ class DetailMotifActivity : AppCompatActivity() {
                     tvArtiMotif.text = it.artiMotif
                 }
             }
+
+            detailViewModel.detailMotifHome.observe(this@DetailMotifActivity) { data ->
+                data?.let {
+                    Glide.with(this@DetailMotifActivity).load(it.foto).into(imageView2)
+                    tvJudul.text = it.jenis
+                    tvSejarahBatik.text = it.sejarah
+                    tvArtiMotif.text = it.arti
+                }
+            }
         }
     }
 
@@ -81,5 +95,6 @@ class DetailMotifActivity : AppCompatActivity() {
     companion object {
         const val DETAIL_ID = "id"
         const val DETAIL_MOTIF_ID = "motifId"
+        const val HOME_ID = "homeId"
     }
 }

@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val repo: MainRepository): ViewModel() {
 
     val loading: LiveData<Boolean> = repo.loading
-    val error: LiveData<String> = repo.error
 
     private val _semuaBerita = MutableLiveData<List<ArtikelModelItem>>()
     val semuaBerita: LiveData<List<ArtikelModelItem>> = _semuaBerita
