@@ -1,4 +1,4 @@
-package com.app.batiklens.di.models.DTO
+package com.app.batiklens.di.models.dto
 
 data class RegisterDTO(
     val email: String,

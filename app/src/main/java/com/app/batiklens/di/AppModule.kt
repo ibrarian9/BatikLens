@@ -76,7 +76,7 @@ val appModule = module {
             get(),
             HistoryDatabase::class.java,
             "historyDatabase"
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     factory { get<HistoryDatabase>().getHistoryDao() }

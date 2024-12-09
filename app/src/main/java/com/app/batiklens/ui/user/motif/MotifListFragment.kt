@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.batiklens.adapters.ListMotifAdapter
 import com.app.batiklens.databinding.FragmentMotifListBinding
+import com.app.batiklens.ui.user.MainActivity
+import com.app.batiklens.ui.user.provinsi.MotifFragment
 import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -31,9 +33,15 @@ class MotifListFragment : Fragment() {
                 listMotifAdapter = ListMotifAdapter(id)
             }
 
-            rv.layoutManager = GridLayoutManager(requireActivity(), 2)
-            rv.addItemDecoration(SpaceItemDecoration(10))
-            rv.adapter = listMotifAdapter
+            rv.apply {
+                layoutManager = GridLayoutManager(requireActivity(), 2)
+                addItemDecoration(SpaceItemDecoration(10))
+                adapter = listMotifAdapter
+            }
+
+            btnBack.setOnClickListener {
+                (activity as MainActivity).loadFragments(MotifFragment())
+            }
 
             motifListViewModel.image.observe(viewLifecycleOwner) { image ->
                 image?.let {

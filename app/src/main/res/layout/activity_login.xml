@@ -11,6 +11,7 @@
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:contentDescription="@string/app_name"
         android:scaleType="fitXY"
         android:src="@drawable/login"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,15 +114,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/forgot_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginVertical="10dp"
-                android:text="@string/lupa_password"
-                android:textColor="@color/mainColor" />
-
             <Button
                 android:id="@+id/masuk"
                 android:layout_width="match_parent"
@@ -130,6 +122,7 @@
                 android:background="@drawable/button_maincolor"
                 android:drawableTint="@color/white"
                 android:includeFontPadding="false"
+                android:layout_marginTop="30dp"
                 android:text="@string/masuk"
                 android:textColor="@color/white" />
 

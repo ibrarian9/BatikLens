@@ -7,4 +7,6 @@ import com.app.batiklens.di.database.History
 
 class HistoryViewModel(private val repo: MainRepository): ViewModel() {
     fun getAllHistory(): LiveData<List<History>> = repo.getAllHistory()
+
+    fun deleteHistory(history: History) = repo.deleteHistory(history)
 }

@@ -72,6 +72,7 @@ interface ApiService {
         @Path("id") id: String
     ): Response<UserModel>
 
+    @Multipart
     @PUT("/edit-profile")
     suspend fun editProfile(
         @PartMap editProfileDTO: Map<String, @JvmSuppressWildcards RequestBody>,

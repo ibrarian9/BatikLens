@@ -63,6 +63,10 @@ class DetailMotifActivity : AppCompatActivity() {
                 updateSectionVisibility(isSejarahVisible, judulSejarahBatik, tvSejarahBatik)
             }
 
+            btnBack.setOnClickListener {
+                onBackPressedDispatcher.onBackPressed()
+            }
+
             detailViewModel.detailMotif.observe(this@DetailMotifActivity) { data ->
                 data?.let {
                     Glide.with(this@DetailMotifActivity).load(it.foto).into(imageView2)

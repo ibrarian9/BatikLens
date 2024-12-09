@@ -10,18 +10,28 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.batiklens.adapters.HistoryAdapter
 import com.app.batiklens.databinding.FragmentHistoryBinding
+import com.app.batiklens.ui.user.MainActivity
+import com.app.batiklens.ui.user.profil.ProfileFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HistoryFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null
     private val bind get() = _binding!!
-    private val historyAdapter = HistoryAdapter()
     private val historyViewModel: HistoryViewModel by viewModel()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
+            // Back button
+            btnBack.setOnClickListener {
+                (activity as MainActivity).loadFragments(ProfileFragment())
+            }
+
+            // Set up Adapter
+            val historyAdapter = HistoryAdapter { history ->
+                historyViewModel.deleteHistory(history)
+            }
 
             listHistory.apply {
                 layoutManager = GridLayoutManager(requireActivity(), 2)
@@ -29,6 +39,7 @@ class HistoryFragment : Fragment() {
                 adapter = historyAdapter
             }
 
+            // Set data from viewModel
             historyViewModel.getAllHistory().observe(viewLifecycleOwner) { list ->
                 list?.let {
                     historyAdapter.submitList(it)

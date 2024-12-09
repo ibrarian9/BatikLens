@@ -9,8 +9,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import android.widget.FrameLayout
+import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,7 +27,6 @@ import com.app.batiklens.BuildConfig
 import com.app.batiklens.R
 import com.app.batiklens.databinding.ActivityScannerBinding
 import com.app.batiklens.databinding.ScannerInfoViewBinding
-import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
 import com.app.batiklens.di.database.History
 import com.app.batiklens.ui.user.MainActivity
@@ -81,10 +79,12 @@ class ScannerActivity : AppCompatActivity() {
                     val history = History(
                         namaBatik = it.predictedLabel,
                         imageUri = imageUri.toString(),
-                        confidence = it.confidence
+                        confidence = it.confidence,
+                        idProvinsi = it.idProvinsi,
+                        idMotif = it.idMotif
                     )
 
-                    val maxConfidence = 0.8
+                    val maxConfidence = 0.6
                     if (result.confidence < maxConfidence) {
                         messageToast(this@ScannerActivity, "Ini Bukan Batik!")
                     } else {
@@ -132,7 +132,7 @@ class ScannerActivity : AppCompatActivity() {
                             if (photoFile.length() > maxSize) {
                                 messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
                             } else {
-                                    scannerViewModel.predictModel(photoFile)
+                                scannerViewModel.predictModel(photoFile)
                                 imageUri = FileProvider.getUriForFile(
                                     this@ScannerActivity,
                                     "${BuildConfig.APPLICATION_ID}.fileprovider",
@@ -160,20 +160,15 @@ class ScannerActivity : AppCompatActivity() {
     }
 
     private fun dialogFull(d: Dialog) {
-        d.window?.let {
-            val layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
+        d.window?.let { window ->
+            val layoutParams = window.attributes
+            layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
+            window.attributes = layoutParams
+            window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-            val marginHorizontal = 2 // Adjust this value for desired margin in pixels
-            val layoutParamsWithMargin = FrameLayout.LayoutParams(layoutParams).apply {
-                leftMargin = marginHorizontal
-                rightMargin = marginHorizontal
-            }
-
-            d.findViewById<View>(android.R.id.content)?.layoutParams = layoutParamsWithMargin
-            it.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val marginHorizontal = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+            d.findViewById<View>(android.R.id.content)?.setPadding(marginHorizontal, 0, marginHorizontal, 0)
         }
     }
 
@@ -224,16 +219,27 @@ class ScannerActivity : AppCompatActivity() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         uri?.let { selectedUri ->
-            val filePath = getPath(this@ScannerActivity, selectedUri)
-            val imageFile = filePath?.let { File(it) }
+            val photoFile = File(cacheDir, "${System.currentTimeMillis()}.jpg")
 
-            when {
-                imageFile == null -> messageToast(this@ScannerActivity, "Gagal mengambil gambar file.")
-                imageFile.length() > maxSize -> messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
-                else -> {
-                    scannerViewModel.predictModel(imageFile)
-                    imageUri = selectedUri
+            try {
+                contentResolver.openInputStream(selectedUri)?.use { inputStream ->
+                    photoFile.outputStream().use { outputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
                 }
+
+                if (photoFile.length() > maxSize) {
+                    messageToast(this@ScannerActivity, "File Gambar Melebihi 5 Mb")
+                } else {
+                    scannerViewModel.predictModel(photoFile)
+                    imageUri = FileProvider.getUriForFile(
+                        this@ScannerActivity,
+                        "${BuildConfig.APPLICATION_ID}.fileprovider",
+                        photoFile
+                    )
+                }
+            } catch (e: Exception) {
+                messageToast(this@ScannerActivity, "Gagal menyimpan file: ${e.message}")
             }
         }
     }

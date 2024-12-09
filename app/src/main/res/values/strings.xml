@@ -33,7 +33,7 @@
     <string name="apa_itu_batiklens">Apa itu BatikLens?</string>
     <string name="bagaimana_cara_untuk_mengetahui_motif_batik">Bagaimana cara untuk mengetahui motif batik?</string>
     <string name="bagaimana_cara_untuk_mengscan_agar_mengetahu_nama_batik">Bagaimana cara untuk mengscan agar mengetahu nama batik?</string>
-    <string name="info">Selamat datang di hangman bantuan kami, tempat Anda dapat menemukan segala dukungan dan panduan yang Anda butuhkan untuk memaksimalkan pengalaman penggunaan layanan kami. Temukan panduan, tutorial langkah-demi-langkah, dan jawaban atas pertanyaan umum. Tim kami siap membantu Anda dengan solusi cepat dan tepat, kapan pun Anda memerlukannya.</string>
+    <string name="info">Selamat datang di halaman bantuan kami, tempat Anda dapat menemukan segala dukungan dan panduan yang Anda butuhkan untuk memaksimalkan pengalaman penggunaan layanan kami. Temukan panduan, tutorial langkah-demi-langkah, dan jawaban atas pertanyaan umum. Tim kami siap membantu Anda dengan solusi cepat dan tepat, kapan pun Anda memerlukannya.</string>
     <string name="batik_lens_info">Aplikasi ini dirancang untuk membantu pengguna mengenali dan memahami kekayaan motif batik Indonesia. Batik adalah salah satu warisan budaya Indonesia yang kaya, dengan setiap motifnya menyimpan cerita, makna, dan asal-usul yang unik. Sayangnya, banyak orang masih kesulitan mengenali motif-motif batik yang mereka temui, sehingga keunikan dan nilai budaya dari batik kurang dihargai. Saat ini, belum ada platform yang secara khusus menyediakan informasi komprehensif mengenai berbagai motif batik. Untuk menjawab tantangan ini, aplikasi ini memanfaatkan metode Convolutional Neural Network (CNN) untuk mengidentifikasi motif batik melalui gambar, baik yang diambil langsung maupun dari foto yang sudah tersimpan. Dengan penerapan model terbaik dalam pengenalan motif batik, serta penggunaan teknik data augmentation dan transfer learning, aplikasi ini mampu memberikan hasil yang akurat.</string>
     <string name="info_motif">Untuk mengetahu motif batik, anda bisa melakukannya dengan 2 hal yaitu mencari motif batik pada halaman motif bisa mencari berdasarkan daerahnya atau dipencarian, cara kedua yaitu dengan memfoto batik pada halaman kamera dan hasil dari foto akan keluar yaitu informasi tentang nama batik, arti motif dan sejarahnya.</string>
     <string name="tutorial">Untuk memfoto batik agar mengetahui informasi tentang batik anda bisa mengikuti langkah-langkah sebagai berikut : Buka halam kamera Posisikan perangkat/device kearah batik yang ingin anda foto klik ikon bulat untuk memfoto Tunggu hasil analisis hasl keluar dan anda bisa membaca informasi dari hasil foto anda tetapi jika gagal anda bisa mengulang lagi pastikan kamera dalam posisi yang pas dan fokus.</string>
@@ -85,6 +85,7 @@
     <string name="pastikan_gambar_tidak_blur">Pastikan gambar tidak blur</string>
     <string name="posisikan_batik_dalam_frame">Posisikan batik dalam frame</string>
     <string name="classification">Classification</string>
+    <string name="history_pemindaian">History Pemindaian</string>
 
     <string-array name="data_name">
         <item>Barong</item>

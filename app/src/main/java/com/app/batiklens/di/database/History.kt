@@ -13,6 +13,12 @@ data class History(
     @ColumnInfo(name = "confidence")
     val confidence: Double = 0.0,
 
+    @ColumnInfo("id_provinsi")
+    val idProvinsi: Int,
+
+    @ColumnInfo("id_motif")
+    val idMotif: Int,
+
     @ColumnInfo(name = "image_uri")
     val imageUri: String,
 

@@ -1,4 +1,4 @@
-package com.app.batiklens.di.models.DTO
+package com.app.batiklens.di.models.dto
 
 import java.io.File
 

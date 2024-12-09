@@ -2,6 +2,7 @@ package com.app.batiklens.ui.user.editProfile
 
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import com.app.batiklens.R
 import com.app.batiklens.databinding.FragmentEditProfileBinding
 import com.app.batiklens.di.Injection.getPath
 import com.app.batiklens.di.Injection.messageToast
-import com.app.batiklens.di.models.DTO.EditProfileDTO
+import com.app.batiklens.di.models.dto.EditProfileDTO
 import com.app.batiklens.ui.user.MainActivity
 import com.app.batiklens.ui.user.profil.ProfileFragment
 import com.bumptech.glide.Glide
@@ -42,13 +43,19 @@ class EditProfileFragment : Fragment() {
                 dataUid = it.uid
             }
 
+            editProfileViewModel.filePoto.observe(viewLifecycleOwner) { image ->
+                image?.let {
+                    file = it
+                }
+            }
+
             editProfileViewModel.detailProfil.observe(viewLifecycleOwner) { data ->
-                data?.let {
-                    namaLengkap.text = Editable.Factory.getInstance().newEditable(it.name)
-                    email.text = Editable.Factory.getInstance().newEditable(it.email)
-                    Glide.with(requireActivity()).load(it.photoUrl).error(R.drawable.baseline_person_24).into(ivPoto)
-
-
+                if (data != null){
+                    namaLengkap.text = Editable.Factory.getInstance().newEditable(data.name)
+                    email.text = Editable.Factory.getInstance().newEditable(data.email)
+                    Glide.with(requireActivity()).load(data.photoUrl).error(R.drawable.baseline_person_24).into(ivPoto)
+                    val fileName = "profile_photo_${System.currentTimeMillis()}.jpg"
+                    editProfileViewModel.dataPhoto(requireContext(), data.photoUrl, fileName)
                 }
             }
 
@@ -57,6 +64,7 @@ class EditProfileFragment : Fragment() {
                     messageToast(requireActivity(), it)
                     (activity as MainActivity).loadFragments(ProfileFragment())
                 }.onFailure {
+                    Log.e("Error On Failure", it.toString())
                     messageToast(requireActivity(), it.toString())
                 }
             }

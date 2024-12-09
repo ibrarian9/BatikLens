@@ -1,5 +1,6 @@
 package com.app.batiklens.di
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.batiklens.di.api.ApiService
@@ -7,8 +8,6 @@ import com.app.batiklens.di.api.ModelApiService
 import com.app.batiklens.di.database.History
 import com.app.batiklens.di.database.HistoryDao
 import com.app.batiklens.di.models.ArtikelModelItem
-import com.app.batiklens.di.models.DTO.EditProfileDTO
-import com.app.batiklens.di.models.DTO.RegisterDTO
 import com.app.batiklens.di.models.DetailMotifHome
 import com.app.batiklens.di.models.FashionModelsItem
 import com.app.batiklens.di.models.ListBatikItem
@@ -17,17 +16,24 @@ import com.app.batiklens.di.models.PredictLabel
 import com.app.batiklens.di.models.ProvinsiMotifModelItem
 import com.app.batiklens.di.models.ResponseMotifItem
 import com.app.batiklens.di.models.UserModel
+import com.app.batiklens.di.models.dto.EditProfileDTO
+import com.app.batiklens.di.models.dto.RegisterDTO
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.net.URL
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -61,11 +67,44 @@ class MainRepository(
 
     private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
-    fun insertHistory(history: History) = executorService.execute {
-        historyDao.insertHistory(history)
-    }
-
     fun getAllHistory(): LiveData<List<History>> = historyDao.getAllHistory()
+
+    fun insertHistory(history: History) = executorService.execute { historyDao.insertHistory(history) }
+
+    fun deleteHistory(history: History) = executorService.execute { historyDao.deleteHistory(history) }
+
+    suspend fun urlToFile(context: Context, fileUrl: String, fileName: String): File? {
+        return withContext(Dispatchers.IO) {
+            try {
+                // Create a temporary file in the app's cache directory
+                val tempFile = File(context.cacheDir, fileName)
+
+                // Open a connection to the URL
+                val url = URL(fileUrl)
+                val connection = url.openConnection()
+                connection.connect()
+
+                // Download the file
+                val inputStream: InputStream = connection.getInputStream()
+                val outputStream = FileOutputStream(tempFile)
+
+                // Copy data from the input stream to the file
+                val buffer = ByteArray(1024)
+                var bytesRead: Int
+                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                    outputStream.write(buffer, 0, bytesRead)
+                }
+
+                outputStream.close()
+                inputStream.close()
+
+                tempFile
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+    }
 
     suspend fun detailHomeBatik(id: Int): DetailMotifHome? {
         _loading.value = true
@@ -105,7 +144,7 @@ class MainRepository(
                 Result.failure(Exception("Edit Profile gagal"))
             }
         } catch (e: Exception){
-            Result.failure(Exception(e))
+            Result.failure(Exception("Error : $e"))
         } finally {
               _loading.value = false
         }
