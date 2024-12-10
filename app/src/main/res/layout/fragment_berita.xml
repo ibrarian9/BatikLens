@@ -82,8 +82,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingVertical="10dp"
-                            android:paddingHorizontal="30dp"
-                            android:textSize="15sp"
+                            android:paddingHorizontal="10dp"
+                            android:textSize="12sp"
                             android:textColor="@color/white" />
 
                     </com.google.android.material.card.MaterialCardView>
@@ -105,9 +105,10 @@
                             android:id="@+id/tvTanggal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
                             android:paddingVertical="10dp"
-                            android:paddingHorizontal="30dp"
-                            android:textSize="15sp"
+                            android:paddingHorizontal="10dp"
+                            android:textSize="12sp"
                             android:textColor="@color/secondColor" />
 
                     </com.google.android.material.card.MaterialCardView>

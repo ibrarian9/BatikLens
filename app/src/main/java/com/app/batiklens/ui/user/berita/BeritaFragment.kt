@@ -1,5 +1,6 @@
 package com.app.batiklens.ui.user.berita
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ class BeritaFragment : Fragment() {
     private val bind get() = _binding!!
     private val beritaViewModel: BeritaViewModel by viewModel()
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bind.apply {
@@ -50,7 +52,7 @@ class BeritaFragment : Fragment() {
                     Glide.with(requireActivity()).load(it.foto).into(ivPoto)
                     tvJudul.text = it.judul
                     tvNama.text = it.author
-                    tvTanggal.text = it.tanggal
+                    tvTanggal.text = "${it.tanggal} ${it.bulan} ${it.tahun}"
                     tvArtikel.text = it.deskripsi
                 }
             }

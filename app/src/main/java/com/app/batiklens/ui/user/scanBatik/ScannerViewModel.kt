@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.app.batiklens.di.MainRepository
 import com.app.batiklens.di.database.History
 import com.app.batiklens.di.models.PredictLabel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -21,9 +20,9 @@ class ScannerViewModel(private val repo: MainRepository): ViewModel() {
     fun insertHistory(history: History) = repo.insertHistory(history)
 
     fun predictModel(file: File) {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             val res = repo.predictModel(file)
-            _modelPredict.value = res
+            _modelPredict.postValue(res)
         }
     }
 }
